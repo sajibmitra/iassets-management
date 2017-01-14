@@ -1,0 +1,1 @@
+{"virtualbox":{"/home/vagrant/iassets-management":{"type":null,"mount_options":[],"guestpath":"/home/vagrant/iassets-management","hostpath":"/home/skmit/Code/iassets-management","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/home/skmit/Code/iassets-management","disabled":false,"__vagrantfile":true}}}
