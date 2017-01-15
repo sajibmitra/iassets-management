@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'sap_id', 'domain_id', 'name', 'department', 'section', 'designation', 'contact_no', 'email', 'password',
     ];
 
     /**
@@ -26,4 +26,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    //A user can use many assets
+    public function iassets(){
+        return $this->belongsToMany('App\Iasset');
+    }
 }

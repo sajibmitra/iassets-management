@@ -26,9 +26,8 @@ class CreateIassetsTable extends Migration
             $table->integer('warranty');
             $table->string('status');
             $table->string('section');
-            $table->string('vendor_id')->nullable();
-            $table->string('user_id')->nullable();
             $table->timestamps();
+
         });
     }
 
@@ -38,7 +37,7 @@ class CreateIassetsTable extends Migration
      * @return void
      */
     public function down()
-    {
+    {   
         Schema::dropIfExists('iassets');
     }
 }

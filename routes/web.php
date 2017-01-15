@@ -16,7 +16,8 @@ Route::get('/', function () {
 });
 Route::get('contact', 'PagesController@contact');
 Route::get('about', 'PagesController@about');
-Route::get('assets', 'IassetsController@index');
-Route::get('assets/create', 'IassetsController@create');
-Route::get('assets/{id}', 'IassetsController@show');
-Route::post('assets', 'IassetsController@store');
+// Route::get('assets', 'IassetsController@index');
+// Route::get('assets/create', 'IassetsController@create');
+// Route::get('assets/{id}', 'IassetsController@show');
+// Route::post('assets', 'IassetsController@store');
+	Route::resource('assets','IassetsController');

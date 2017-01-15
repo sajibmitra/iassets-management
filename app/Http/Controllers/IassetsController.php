@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 use App\Iasset;
-use Request;
 use Carbon\Carbon;
+use App\Http\Requests\IassetRequest;
 
 class IassetsController extends Controller
 {
     public function index(){
-    	$assets= Iasset::latest()->get();
+    	//$assets= Iasset::latest()->get();
     	//$assets= Iasset::order_by('published_at', 'desc')->get();
+        $assets = Iasset::latest('purchase_at')->purchased()->get();
         return view('iassets.index', compact('assets'));
     }
     public function show($id){
@@ -27,11 +28,17 @@ class IassetsController extends Controller
         return view('iassets.create');       
     }
 
-    public function store(){
-        $input  =   Request::all();
-        $input['purchase_at'] = Carbon::now();
-        $input['entry_at']  =   Carbon::now();
-        Iasset::create($input);
+    public function store(IassetRequest $request){
+        Iasset::create($request->all());
+        return redirect('assets');
+    }
+    public function edit($id){
+        $asset = Iasset::findOrFail($id);
+        return view('iassets.edit', compact('asset'));
+    }
+    public function update(IassetRequest $request, $id){
+        $asset = Iasset::findOrFail($id);
+        $asset->update($request->all());
         return redirect('assets');
     }
 }
