@@ -1,5 +1,6 @@
-@extends('app')
-@section('content')
-<h1> {{ $asset }}</h1>
+@extends('layouts.app')
 
-@stop
+@section('content')
+    <?php $linkTag = 'Iasset'?>
+    @include('partials.navpan')
+@endsection

@@ -11,13 +11,16 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::get('/', function(){
+    return view('root');
 });
-Route::get('contact', 'PagesController@contact');
-Route::get('about', 'PagesController@about');
-// Route::get('assets', 'IassetsController@index');
-// Route::get('assets/create', 'IassetsController@create');
-// Route::get('assets/{id}', 'IassetsController@show');
-// Route::post('assets', 'IassetsController@store');
-	Route::resource('assets','IassetsController');
+
+Route::resource('iassets','IassetsController');
+Route::resource('users','UsersController');
+Route::resource('ivendors','IvendorsController');
+Route::resource('iworkstations','IworkstationsController');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');

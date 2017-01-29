@@ -2,20 +2,17 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'sap_id', 'domain_id', 'name', 'department', 'section', 'designation', 'contact_no', 'email', 'password',
+        'name', 'department', 'section', 'designation', 'contact_no', 'email', 'password', 'role'
     ];
 
     /**
@@ -26,8 +23,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-    //A user can use many assets
+
+    /** An user has many Assets
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function iassets(){
-        return $this->belongsToMany('App\Iasset');
+        //return $this->belongsToMany('App\Iasset')->withTimestamps()->orderBy('pivot_updated_at','dsce')->groupBy('pivot_iasset_id');
+        return $this->belongsToMany('App\Iasset')->withTimestamps()->orderBy('pivot_updated_at','dsce');
+    }
+    public function iworkstations(){
+        return $this->belongsToMany('App\Iworkstation')->withTimestamps();
     }
 }

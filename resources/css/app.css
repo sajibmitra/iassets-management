@@ -1,0 +1,11 @@
+body {
+  padding-top: 10px;
+  color: purple;
+}
+
+body, label, .checkbox label {
+  font-weight: 300;
+  font-family: 'Montserrat',sans-serif;
+}
+
+/*# sourceMappingURL=app.css.map */

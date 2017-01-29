@@ -1,6 +1,4 @@
-const elixir = require('laravel-elixir');
-
-require('laravel-elixir-vue-2');
+var elixir = require('laravel-elixir');
 
 /*
  |--------------------------------------------------------------------------
@@ -13,7 +11,40 @@ require('laravel-elixir-vue-2');
  |
  */
 
-elixir(mix => {
-    mix.sass('app.scss')
-       .webpack('app.js');
+elixir(function(mix) {
+
+    mix.sass('app.scss','resources/css')
+        .styles([
+            'libs/bootstrap.min.css',
+            'libs/font-awesome.min.css',
+            'libs/Lato.css',
+            'app.css',
+            'libs/select2.min.css',
+            'iassets.css'
+        ], null, 'resources/css')
+        .scripts([
+            'libs/jquery.js',
+            'libs/bootstrap.min.js',
+            'libs/select2.min.js',
+            'iassets.js',
+        ], null, 'resources/js')
+        .version(
+            ['public/css/all.css','public/js/all.js']
+        );
+
+    /*
+     mix.styles(['vendor/normalize.css','app.css'],null,'public/css');
+     mix.version(['public/css/all.css']);*/
+
+
+    //mix.phpUnit().phpSpec();
+    /*
+     mix.sass('app.scss').coffee('module.coffee');
+     mix.styles([
+     'vendor/normalize.css',
+     'app.css'
+     ], 'public/output/final.css', 'public/css');
+     mix.scripts([
+     'js/module.js',
+     ], 'public/output/final.js', 'public/');*/
 });

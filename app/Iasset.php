@@ -3,32 +3,45 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Requests;
 use Carbon\Carbon;
 class Iasset extends Model
 {
-	protected $fillable	=	['asset_id','serial_id','product_id','type','brand','model','purchase_at','entry_at','warranty','status','section','vendor_id','user_id'];
+    protected $fillable =[
+        'iasset_id','unique_office_id','serial_id', 'product_id','type','brand','model','purchase_at', 'entry_at','warranty','status','section', 'user_id','ivendor_id'
+    ];
 
-	public function scopePurchased($query){
-		$query->where('purchase_at','<=',Carbon::now());
-	}
+    public function setPurchaseAtAttribute($date){
+        $this->attributes['purchase_at']= Carbon::createFromFormat('Y-m-d', $date);
+    }
 
-	public function scopeNotpurchased($query){
-		$query->where('purchase_at','>',Carbon::now());
-	}
+    public function setEntryAtAttribute($date){
+        $this->attributes['entry_at']= Carbon::createFromFormat('Y-m-d', $date);
+    }
 
-	public function setPurchaseAtAttribute($date){
-		$this->attributes['purchase_at']= Carbon::createFromFormat('Y-m-d', $date);
-	}
+    /*    public function scopePublished($query){
+            $query->where('entry_at','<=',Carbon::now());
+        }
 
-	public function setEntryAtAttribute($date){
-		$this->attributes['entry_at']= Carbon::createFromFormat('Y-m-d', $date);
-	}
-	//An asset can be used by many user
-	public function users(){
-		return $this->belongsToMany('App\User'); 
-	}
-	//An asset belongs to only one vendor
-	public function vendor(){
-		return $this->belongsTo('App\Vendor'); 
-	}
+        public function scopeUnpublished($query){
+            $query->where('entry_at','>',Carbon::now());
+        }
+
+        public function setEntryAtAttribute($date){
+            $this->attributes['entry_at']= Carbon::parse($date);
+        }
+    */
+    /** An asset used by multiple users
+     *
+     */
+    public function users(){
+        return $this->belongsToMany('App\User')->withTimestamps()->orderBy('pivot_updated_at');
+    }
+    /**An asset brought from only one shop
+     * @return mixed
+     */
+    //An asset belongs to only one vendor
+    public function ivendor(){
+        return $this->belongsTo('App\Ivendor');
+    }
 }
