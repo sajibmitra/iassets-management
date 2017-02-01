@@ -1,7 +1,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <!-- Nav tabs --><div class="card">
+            <!-- Nav tabs -->
+            <div class="card">
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#detail" aria-controls="detail" role="tab" data-toggle="tab">Detail</a></li>
                     <li role="presentation"><a href="#update" aria-controls="update" role="tab" data-toggle="tab">Edit</a></li>

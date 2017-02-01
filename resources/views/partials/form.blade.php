@@ -78,7 +78,7 @@
     @elseif($attribute == 'Lnk_Printer_Id')
         <div class={{ $gui_area }}>
             {!! Form::label('lnk_printer_id', 'Link Printer Info ') !!}
-            {!! Form::select('lnk_printer_id', $lnk_printers, null, ['class'=>'form-control','single']) !!}
+            {!! Form::select('lnk_printer_id', $lnk_printer_list, null, ['class'=>'form-control','single']) !!}
         </div>
     @elseif($attribute == 'Net_Login_Status')
         <div class={{ $gui_area }}>

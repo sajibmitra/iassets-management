@@ -1,6 +1,5 @@
 <table class="table">
     <tbody>
-
     @foreach($attributes as $attribute)
         <tr>
             <td> {{ $attribute }} </td>
@@ -23,6 +22,9 @@
                     {{$user_list[object_get($object, strtolower($attribute), null)]}}
                 @elseif($attribute == 'Ivendor_Id' )
                     {{$vendor_list[object_get($object, strtolower($attribute), null)]}}
+                @elseif($attribute == 'Lnk_Printer_Id' )
+                    <?php $id = object_get($object, strtolower($attribute), null) ?>
+                    {{$lnk_printer_list[$id]}}
                 @else
                     {{object_get($object, strtolower($attribute), null)}}
                 @endif

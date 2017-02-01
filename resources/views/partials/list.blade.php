@@ -1,7 +1,12 @@
 <div class="container">
     <div class="row">
         <div class="panel panel-primary filterable">
-            <div class="panel-heading">
+
+            <div class="pull-right">
+                <button class="btn btn-default btn-xs btn-filter">
+                    <span class="glyphicon glyphicon-filter"> Search Anything </span>  </button>
+            </div>
+            <div class="panel-heading " align="left" >
                 <h3 class="panel-title">
                     @if($linkTag == 'Iasset' || $linkTag == 'Ivendor' || $linkTag == 'Iworkstation')
                         <a href="{{url( strtolower($linkTag.'s/create'))}}"> {{$linkTag.' (Create New)'}}</a>
@@ -9,24 +14,22 @@
                         {{$linkTag}}
                     @endif
                 </h3>
-                <div class="pull-right">
-                    <button class="btn btn-default btn-xs btn-filter">
-                        <span class="glyphicon glyphicon-filter"></span> Filter</button>
-                </div>
             </div>
             <table class="table">
                 <thead>
-                <tr class="filters">
+                <tr class="filters" bgcolor="#f4a460">
                     @foreach($attributes as $attribute)
                         <th><input type="text" class="form-control" placeholder="{{$attribute}}" disabled></th>
                     @endforeach
                 </tr>
                 </thead>
                 <tbody>
+                <?php $rowColor ="#90dd90"; $rowColorFlag= true ?>
                     @foreach($objects as $object)
-                        <tr>
+                        <tr bgcolor= {{$rowColor}}>
                             @foreach($attributes as $key=>$attribute)
-                                <td>
+
+                                <td align="center" >
                                     @if($key == 0)
                                         <a href="{{ url(strtolower($linkTag.'s/'.$object->id))}}"> {{object_get($object, strtolower($attribute), null)}} </a>
                                     @else
@@ -50,6 +53,9 @@
                                         @elseif($attribute == 'Ivendor_Id' )
                                             <?php $id = object_get($object, strtolower($attribute), null) ?>
                                             <a href="{{ url('ivendors/'.$id)}}">  {{$vendor_list[$id]}} </a>
+                                        @elseif($attribute == 'Lnk_Printer_Id' )
+                                            <?php $id = object_get($object, strtolower($attribute), null) ?>
+                                                    {{$lnk_printer_list[$id]}}
                                         @else
                                             {{object_get($object, strtolower($attribute), null)}}
                                         @endif
@@ -57,6 +63,12 @@
                                 </td>
                             @endforeach
                         </tr>
+
+                        @if($rowColorFlag == true)
+                            <?php $rowColor= "#f0eef0";  $rowColorFlag= false ?>
+                        @else
+                            <?php $rowColor= "#90dd90"; $rowColorFlag= true ?>
+                        @endif
                     @endforeach
                 </tbody>
             </table>

@@ -69,9 +69,11 @@ class IassetsController extends Controller
         $objects= Iasset::latest('updated_at')->get();
         $attributes = [ 'Unique_Office_Id', 'Type', 'Brand', 'Entry_At', 'Status', 'Section', 'User_Id', 'Ivendor_Id'];
         $user_list= array_keys(User::all()->keyBy('name')->toArray());
-        array_unshift($user_list, 'Select One');
+        array_unshift($user_list,"");
+        unset($user_list[0]);
         $vendor_list= array_keys(Ivendor::all()->keyBy('name')->toArray());
-        array_unshift($vendor_list, 'Select One');
+        array_unshift($vendor_list,"");
+        unset($vendor_list[0]);
         $types = array_keys($this->asset_type);
         $sections=array_keys($this->sections);
         $asset_status=array_keys($this->asset_status);
@@ -82,9 +84,11 @@ class IassetsController extends Controller
         $object= Iasset::findOrFail($id);
         $users = $object->users;
         $user_list= array_keys(User::all()->keyBy('name')->toArray());
-        array_unshift($user_list, 'Select One');
+        array_unshift($user_list,"");
+        unset($user_list[0]);
         $vendor_list= array_keys(Ivendor::all()->keyBy('name')->toArray());
-        array_unshift($vendor_list, 'Select One');
+        array_unshift($vendor_list,"");
+        unset($vendor_list[0]);
         $attributes = [ 'Unique_Office_Id', 'Type', 'Brand', 'Model', 'Serial_id', 'Product_ID', 'Purchase_at', 'Entry_At', 'Warranty', 'Status', 'Section', 'User_Id', 'Ivendor_Id'];
         $types = array_keys($this->asset_type);
         $sections=array_keys($this->sections);
@@ -95,9 +99,11 @@ class IassetsController extends Controller
     public function create(){
         $attributes = [ 'Type', 'Brand', 'Model', 'Serial_id', 'Product_ID', 'Unique_Office_Id', 'Purchase_at', 'Entry_At', 'Warranty', 'Status', 'Section', 'User_Id', 'Ivendor_Id'];
         $user_list= array_keys(User::all()->keyBy('name')->toArray());
-        array_unshift($user_list, 'Select One');
+        array_unshift($user_list,"");
+        unset($user_list[0]);
         $vendor_list= array_keys(Ivendor::all()->keyBy('name')->toArray());
-        array_unshift($vendor_list, 'Select One');
+        array_unshift($vendor_list,"");
+        unset($vendor_list[0]);
         $types = array_keys($this->asset_type);
         $sections=array_keys($this->sections);
         $asset_status=array_keys($this->asset_status);

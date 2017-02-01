@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Iassets Mamn') }}</title>
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
@@ -36,7 +36,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Asset Mamn') }}
+                        {{ config('app.name', 'Iassets Mamn') }}
                     </a>
                 </div>
 
@@ -53,7 +53,7 @@
                             <li><a href="{{url('users')}}"> Users </a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-left">
-                            <li><a href="{{url('ivendors')}}"> Venndors </a></li>
+                            <li><a href="{{url('ivendors')}}"> Vendors </a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-left">
                             <li><a href="{{url('iworkstations')}}"> Workstations </a></li>

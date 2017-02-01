@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Iasset;
 use App\User;
-use App\Ivendor;
 use App\Iworkstation;
 class IworkstationsController extends Controller
 {
@@ -38,9 +37,13 @@ class IworkstationsController extends Controller
         $attributes = [ 'Iworkstation_Id', 'Net_Switch_Id', 'Net_Switch_Port', 'Net_DHCP_Ip', 'Net_MAC_Id', 'Net_Login_Status', 'Net_Faceplate_Id', 'OS_Detail_Info', 'Lnk_Printer_Id', 'Sys_Product_Id', 'User_Id'];
         $os_info_list= array_keys($this->os_info_list);
         $net_switch_list= array_keys($this->net_switch_list);
+
+        $lnk_printer_list= array_keys(Iasset::all()->where('type','3')->keyBy('unique_office_id')->toArray());
+        array_unshift($lnk_printer_list,"");
+        unset($lnk_printer_list[0]);
         $user_list= array_keys(User::all()->keyBy('name')->toArray());
         array_unshift($user_list, 'Select One');
-        return view('iworkstations.index', compact('objects', 'attributes', 'user_list','os_info_list','net_switch_list'));
+        return view('iworkstations.index', compact('objects', 'attributes', 'user_list','os_info_list','net_switch_list','lnk_printer_list'));
     }
     public function show($id){
         $object= Iworkstation::findOrFail($id);
@@ -48,9 +51,13 @@ class IworkstationsController extends Controller
         $os_info_list= array_keys($this->os_info_list);
         $net_switch_list= array_keys($this->net_switch_list);
         $user_list= array_keys(User::all()->keyBy('name')->toArray());
-        array_unshift($user_list, 'Select One');
+        array_unshift($user_list,"");
+        unset($user_list[0]);
+        $lnk_printer_list= array_keys(Iasset::all()->where('type','3')->keyBy('unique_office_id')->toArray());
+        array_unshift($lnk_printer_list,"");
+        unset($lnk_printer_list[0]);
         $attributes = [ 'Iworkstation_Id', 'Net_Switch_Id', 'Net_Switch_Port', 'Net_DHCP_Ip', 'Net_MAC_Id', 'Net_Login_Status', 'Net_Faceplate_Id', 'OS_Detail_Info', 'Lnk_Printer_Id', 'Sys_Product_Id', 'User_Id'];
-        return view('iworkstations.show',compact('object', 'attributes','users', 'user_list','os_info_list', 'net_switch_list'));
+        return view('iworkstations.show',compact('object', 'attributes','users', 'user_list','os_info_list', 'net_switch_list','lnk_printer_list'));
     }
     public function create(){
         $attributes = [ 'User_Id','Net_Switch_Id', 'Net_Switch_Port', 'Net_DHCP_Ip', 'Net_MAC_Id', 'Net_Login_Status', 'Net_Faceplate_Id', 'OS_Detail_Info', 'Lnk_Printer_Id', 'Sys_Product_Id'];
@@ -58,13 +65,10 @@ class IworkstationsController extends Controller
         array_unshift($user_list, 'Select One');
         $os_info_list= array_keys($this->os_info_list);
         $net_switch_list= array_keys($this->net_switch_list);
-        $lnk_printer_list= (Iasset::all()->where('type', '3')->toArray());
-        $lnk_printers= array();
-        foreach ($lnk_printer_list as $printer)
-        {
-            array_push($lnk_printers, $printer['unique_office_id']);
-        }
-        return view('iworkstations.create', compact('attributes','user_list','os_info_list','net_switch_list','lnk_printers'));
+        $lnk_printer_list= array_keys(Iasset::all()->where('type','3')->keyBy('unique_office_id')->toArray());
+        array_unshift($lnk_printer_list,"");
+        unset($lnk_printer_list[0]);
+        return view('iworkstations.create', compact('attributes','user_list','os_info_list','net_switch_list','lnk_printer_list'));
     }
     public function store(Request $request){
         $request['iworkstation_id']= $this->getIworkstationId($request);

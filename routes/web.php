@@ -22,5 +22,3 @@ Route::resource('ivendors','IvendorsController');
 Route::resource('iworkstations','IworkstationsController');
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index');
