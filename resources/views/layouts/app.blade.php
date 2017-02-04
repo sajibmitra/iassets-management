@@ -50,7 +50,7 @@
                             <li><a href="{{url('iassets')}}"> Assets </a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-left">
-                            <li><a href="{{url('users')}}"> Users </a></li>
+                            <li><a href="{{url('iusers')}}"> Users </a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-left">
                             <li><a href="{{url('ivendors')}}"> Vendors </a></li>

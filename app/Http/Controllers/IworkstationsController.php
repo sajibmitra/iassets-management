@@ -74,13 +74,13 @@ class IworkstationsController extends Controller
         $request['iworkstation_id']= $this->getIworkstationId($request);
         $workstation = new Iworkstation($request->all());
         $workstation->save();
-        $workstation->users()->attach($workstation->user_id);
+        $workstation->iusers()->attach($workstation->user_id);
         return redirect('iworkstations');
     }
     public function update($id, Request $request){
         $workstation = Iworkstation::findOrFail($id);
         $workstation->update($request->all());
-        $workstation->users()->attach($workstation->user_id);
+        $workstation->iusers()->attach($workstation->user_id);
         return redirect('iworkstations');
     }
     /**

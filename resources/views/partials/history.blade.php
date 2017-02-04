@@ -2,7 +2,6 @@
     @if($linkTag == 'Iasset')
         <thead>
         <tr>
-
             <th> User Id </th>
             <th> Use From </th>
             <th> Ended At </th>
@@ -17,7 +16,7 @@
         @foreach($users as $user)
             <tr>
                 <td>
-                    <a href="{{ url('users/'.$user['id'])}}"> {{ $user['name'] }} </a>
+                    <a href="{{ url('iusers/'.$user['id'])}}"> {{ $user['name'] }} </a>
                 </td>
                 <td>
                     {{ $user['pivot']['created_at'] }}
@@ -33,7 +32,7 @@
             </tr>
         @endforeach
         </tbody>
-    @elseif($linkTag == 'User')
+    @elseif($linkTag == 'Iuser')
         <thead>
         <tr>
             <th> Asset Id </th>
@@ -56,7 +55,7 @@
                     @if($previousAssetId != $asset['id'])
                         <?php $useInFlag = false ?>
                     @endif
-                    @if($asset['user_id'] == object_get($object, 'id', null))
+                    @if($asset['iuser_id'] == object_get($object, 'id', null))
                         @if($useInFlag == false)
                             In Use
                             <?php $useInFlag = true ?>

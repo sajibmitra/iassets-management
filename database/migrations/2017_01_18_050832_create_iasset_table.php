@@ -26,24 +26,24 @@ class CreateIassetTable extends Migration
             $table->integer('warranty');
             $table->string('status');
             $table->string('section');
-            $table->integer('user_id')->unsigned();
+            $table->integer('iuser_id')->unsigned();
             $table->integer('ivendor_id')->unsigned();
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('iuser_id')->references('id')->on('iusers')->onDelete('cascade');
             $table->foreign('ivendor_id')->references('id')->on('ivendors')->onDelete('cascade');
         });
-        Schema::create('iasset_user', function (Blueprint $table) {
+        Schema::create('iasset_iuser', function (Blueprint $table) {
             $table->integer('iasset_id')->unsigned()->index();
-            $table->integer('user_id')->unsigned()->index();
+            $table->integer('iuser_id')->unsigned()->index();
             $table->timestamps();
 
             $table->foreign('iasset_id')
                 ->references('id')
                 ->on('iassets')
                 ->onDelete('cascade');
-            $table->foreign('user_id')
+            $table->foreign('iuser_id')
                 ->references('id')
-                ->on('users')
+                ->on('iusers')
                 ->onDelete('cascade');
         });
    }
@@ -55,7 +55,7 @@ class CreateIassetTable extends Migration
      */
     public function down()
     {
-        Schema::drop('iasset_user');
+        Schema::drop('iasset_iuser');
         Schema::drop('iassets');
     }
 }

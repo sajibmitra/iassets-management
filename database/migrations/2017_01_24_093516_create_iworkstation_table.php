@@ -24,23 +24,23 @@ class CreateIworkstationTable extends Migration
             $table->string('net_faceplate_id');
             $table->string('lnk_printer_id');
             $table->string('sys_product_id');
-            $table->integer('user_id')->unsigned();
+            $table->integer('iuser_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('iuser_id')->references('id')->on('iusers')->onDelete('cascade');
         });
-        Schema::create('iworkstation_user', function (Blueprint $table) {
+        Schema::create('iworkstation_iuser', function (Blueprint $table) {
             $table->integer('iworkstation_id')->unsigned()->index();
-            $table->integer('user_id')->unsigned()->index();
+            $table->integer('iuser_id')->unsigned()->index();
             $table->timestamps();
 
             $table->foreign('iworkstation_id')
                 ->references('id')
                 ->on('iworkstations')
                 ->onDelete('cascade');
-            $table->foreign('user_id')
+            $table->foreign('iuser_id')
                 ->references('id')
-                ->on('users')
+                ->on('iusers')
                 ->onDelete('cascade');
         });
     }
@@ -52,7 +52,7 @@ class CreateIworkstationTable extends Migration
      */
     public function down()
     {
-        Schema::drop('iworkstation_user');
+        Schema::drop('iworkstation_iuser');
         Schema::drop('iworkstations');
     }
 }

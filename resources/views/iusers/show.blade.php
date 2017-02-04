@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <?php $linkTag = 'User'?>
+    <?php $linkTag = 'Iuser'?>
     @include('partials.navpan')
 @endsection

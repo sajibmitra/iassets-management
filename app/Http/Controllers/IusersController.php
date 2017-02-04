@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\User;
+use App\Iuser;
 
-class UsersController extends Controller
+class IusersController extends Controller
 {
     protected $roles    = [
         'User'  => 'USR__',
@@ -61,7 +61,7 @@ class UsersController extends Controller
         $this->middleware('auth');
     }
     public function index(){
-        $objects= User::all();
+        $objects= Iuser::all();
         $sections=array_keys($this->sections);
         $departments=array_keys($this->departments);
         $designations= array_keys($this->designations);
@@ -69,23 +69,32 @@ class UsersController extends Controller
         $attributes = [ 'Name', 'Department', 'Section', 'Designation', 'Contact_No', 'Email', 'Role'];
         return view('iusers.index', compact('objects', 'attributes','designations','departments','sections','roles'));
     }
+    public function create(){
+        $attributes = [ 'Name', 'Department', 'Section', 'Designation', 'Contact_No', 'Email', 'Role'];
+        $sections=array_keys($this->sections);
+        $departments=array_keys($this->departments);
+        $designations= array_keys($this->designations);
+        $roles = array_keys($this->roles);
+        return view('iusers.create', compact('object', 'attributes','sections','departments', 'designations','roles','iassets'));
+    }
     public function show($id){
-        $object= User::findOrFail($id);
+        $object= Iuser::findOrFail($id);
         $iassets= $object->iassets;
         $attributes = [ 'Name', 'Department', 'Section', 'Designation', 'Contact_No', 'Email', 'Role'];
         $sections=array_keys($this->sections);
         $departments=array_keys($this->departments);
         $designations= array_keys($this->designations);
         $roles = array_keys($this->roles);
-        return view('iusers.show',compact('object', 'attributes','sections','departments', 'designations','roles','iassets'));
+        return view('iusers.show', compact('object', 'attributes','sections','departments', 'designations','roles','iassets'));
     }
     public function store(Request $request){
-        $user = new User($request->all());
+        $request['password']='_NOT_SET_';
+        $user = new Iuser($request->all());
         $user->save();
         return redirect('iusers');
     }
     public function update($id, Request $request){
-        $user = User::findOrFail($id);
+        $user = Iuser::findOrFail($id);
         $user->update($request->all());
         return redirect('iusers');
     }

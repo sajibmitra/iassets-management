@@ -17,7 +17,7 @@ Route::get('/', function(){
 });
 
 Route::resource('iassets','IassetsController');
-Route::resource('users','UsersController');
+Route::resource('iusers','IusersController');
 Route::resource('ivendors','IvendorsController');
 Route::resource('iworkstations','IworkstationsController');
 

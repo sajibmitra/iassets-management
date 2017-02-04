@@ -6,7 +6,7 @@
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#detail" aria-controls="detail" role="tab" data-toggle="tab">Detail</a></li>
                     <li role="presentation"><a href="#update" aria-controls="update" role="tab" data-toggle="tab">Edit</a></li>
-                    @if($linkTag == 'Iasset' || $linkTag == 'User' || $linkTag == 'Ivendor')
+                    @if($linkTag == 'Iasset' || $linkTag == 'Iuser' || $linkTag == 'Ivendor')
                         <li role="presentation"><a href="#history" aria-controls="history" role="tab" data-toggle="tab"> History</a></li>
                     @endif
                 </ul>
@@ -27,7 +27,7 @@
                             @include('partials.form', ['submitButtonText'=>'Update '.$linkTag])
                         {!! Form::close() !!}
                     </div>
-                    @if($linkTag == 'Iasset' || $linkTag == 'User' || $linkTag == 'Ivendor')
+                    @if($linkTag == 'Iasset' || $linkTag == 'Iuser' || $linkTag == 'Ivendor')
                         <div role="tabpanel" class="tab-pane" id="history">
                             @include('partials.history')
                         </div>

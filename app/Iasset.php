@@ -8,7 +8,7 @@ use Carbon\Carbon;
 class Iasset extends Model
 {
     protected $fillable =[
-        'iasset_id','unique_office_id','serial_id', 'product_id','type','brand','model','purchase_at', 'entry_at','warranty','status','section', 'user_id','ivendor_id'
+        'iasset_id','unique_office_id','serial_id', 'product_id','type','brand','model','purchase_at', 'entry_at','warranty','status','section', 'iuser_id','ivendor_id'
     ];
 
     public function setPurchaseAtAttribute($date){
@@ -31,11 +31,11 @@ class Iasset extends Model
             $this->attributes['entry_at']= Carbon::parse($date);
         }
     */
-    /** An asset used by multiple users
+    /** An asset used by multiple iusers
      *
      */
-    public function users(){
-        return $this->belongsToMany('App\User')->withTimestamps()->orderBy('pivot_updated_at');
+    public function iusers(){
+        return $this->belongsToMany('App\Iuser')->withTimestamps()->orderBy('pivot_updated_at');
     }
     /**An asset brought from only one shop
      * @return mixed

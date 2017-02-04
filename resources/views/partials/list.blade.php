@@ -8,10 +8,8 @@
             </div>
             <div class="panel-heading " align="left" >
                 <h3 class="panel-title">
-                    @if($linkTag == 'Iasset' || $linkTag == 'Ivendor' || $linkTag == 'Iworkstation')
+                    @if($linkTag == 'Iasset' || $linkTag == 'Iuser'|| $linkTag == 'Ivendor' || $linkTag == 'Iworkstation')
                         <a href="{{url( strtolower($linkTag.'s/create'))}}"> {{$linkTag.' (Create New)'}}</a>
-                    @elseif($linkTag == 'User')
-                        {{$linkTag}}
                     @endif
                 </h3>
             </div>
@@ -47,9 +45,9 @@
                                             {{$asset_brand[object_get($object, strtolower($attribute), null)]}}
                                         @elseif($attribute == 'Type' )
                                             {{$types[object_get($object, strtolower($attribute), null)]}}
-                                        @elseif($attribute == 'User_Id' )
+                                        @elseif($attribute == 'Iuser_Id' )
                                             <?php $id = object_get($object, strtolower($attribute), null) ?>
-                                            <a href="{{ url('users/'.$id)}}"> {{$user_list[$id]}} </a>
+                                            <a href="{{ url('iusers/'.$id)}}"> {{$user_list[$id]}} </a>
                                         @elseif($attribute == 'Ivendor_Id' )
                                             <?php $id = object_get($object, strtolower($attribute), null) ?>
                                             <a href="{{ url('ivendors/'.$id)}}">  {{$vendor_list[$id]}} </a>

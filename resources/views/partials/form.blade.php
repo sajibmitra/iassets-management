@@ -55,10 +55,10 @@
             {!! Form::label('warranty', 'Warranty: ') !!}
             {!! Form::select('warranty', [0, 1,2,3,4,5], null, ['class'=>'form-control','single']) !!}
         </div>
-    @elseif($attribute == 'User_Id')
+    @elseif($attribute == 'Iuser_Id')
         <div class={{ $gui_area }}>
-            {!! Form::label('user_id', 'User Id: ') !!}
-            {!! Form::select('user_id', $user_list, null, ['class'=>'form-control','single']) !!}
+            {!! Form::label('iuser_id', 'Iuser Id: ') !!}
+            {!! Form::select('iuser_id', $user_list, null, ['class'=>'form-control','single']) !!}
         </div>
     @elseif($attribute == 'Ivendor_Id')
         <div class={{ $gui_area }}>

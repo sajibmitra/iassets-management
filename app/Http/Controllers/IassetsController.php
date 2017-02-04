@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Iasset;
-use App\User;
+use App\Iuser;
 use App\Ivendor;
 class IassetsController extends Controller
 {
@@ -67,8 +67,8 @@ class IassetsController extends Controller
 
     public function  index () {
         $objects= Iasset::latest('updated_at')->get();
-        $attributes = [ 'Unique_Office_Id', 'Type', 'Brand', 'Entry_At', 'Status', 'Section', 'User_Id', 'Ivendor_Id'];
-        $user_list= array_keys(User::all()->keyBy('name')->toArray());
+        $attributes = [ 'Unique_Office_Id', 'Type', 'Brand', 'Entry_At', 'Status', 'Section', 'Iuser_Id', 'Ivendor_Id'];
+        $user_list= array_keys(Iuser::all()->keyBy('name')->toArray());
         array_unshift($user_list,"");
         unset($user_list[0]);
         $vendor_list= array_keys(Ivendor::all()->keyBy('name')->toArray());
@@ -82,14 +82,14 @@ class IassetsController extends Controller
     }
     public function show($id){
         $object= Iasset::findOrFail($id);
-        $users = $object->users;
-        $user_list= array_keys(User::all()->keyBy('name')->toArray());
+        $users = $object->iusers;
+        $user_list= array_keys(Iuser::all()->keyBy('name')->toArray());
         array_unshift($user_list,"");
         unset($user_list[0]);
         $vendor_list= array_keys(Ivendor::all()->keyBy('name')->toArray());
         array_unshift($vendor_list,"");
         unset($vendor_list[0]);
-        $attributes = [ 'Unique_Office_Id', 'Type', 'Brand', 'Model', 'Serial_id', 'Product_ID', 'Purchase_at', 'Entry_At', 'Warranty', 'Status', 'Section', 'User_Id', 'Ivendor_Id'];
+        $attributes = [ 'Unique_Office_Id', 'Type', 'Brand', 'Model', 'Serial_id', 'Product_ID', 'Purchase_at', 'Entry_At', 'Warranty', 'Status', 'Section', 'Iuser_Id', 'Ivendor_Id'];
         $types = array_keys($this->asset_type);
         $sections=array_keys($this->sections);
         $asset_status=array_keys($this->asset_status);
@@ -97,8 +97,8 @@ class IassetsController extends Controller
         return view('iassets.show',compact('object', 'attributes', 'types', 'sections','asset_status','asset_brand','users', 'user_list', 'vendor_list'));
     }
     public function create(){
-        $attributes = [ 'Type', 'Brand', 'Model', 'Serial_id', 'Product_ID', 'Unique_Office_Id', 'Purchase_at', 'Entry_At', 'Warranty', 'Status', 'Section', 'User_Id', 'Ivendor_Id'];
-        $user_list= array_keys(User::all()->keyBy('name')->toArray());
+        $attributes = [ 'Type', 'Brand', 'Model', 'Serial_id', 'Product_ID', 'Unique_Office_Id', 'Purchase_at', 'Entry_At', 'Warranty', 'Status', 'Section', 'Iuser_Id', 'Ivendor_Id'];
+        $user_list= array_keys(Iuser::all()->keyBy('name')->toArray());
         array_unshift($user_list,"");
         unset($user_list[0]);
         $vendor_list= array_keys(Ivendor::all()->keyBy('name')->toArray());
@@ -115,14 +115,14 @@ class IassetsController extends Controller
         $request['unique_office_id']=$this->asset_type[array_keys($this->asset_type)[$request->get('type')]].'-'.$request->get('unique_office_id');
         $asset = new Iasset($request->all());
         $asset->save();
-        $asset->users()->attach($asset->user_id);
+        $asset->iusers()->attach($asset->iuser_id);
         return redirect('iassets');
     }
    public function update($id, Request $request){
        $asset = Iasset::findOrFail($id);
        //$request['iasset_id']= $this->getIassetId($request);
        $asset->update($request->all());
-       $asset->users()->attach($asset->user_id);
+       $asset->iusers()->attach($asset->iuser_id);
        return redirect('iassets');
     }
     /**
