@@ -9,10 +9,10 @@ use App\Ivendor;
 class IvendorsController extends Controller
 {
     protected $asset_status   =[
-        'GOOD'   => 'GDD',
+        'GOOD'   => 'GOOD',
         'BAD'   => 'BAD',
-        'STORE ROOM' => 'DAM',
-        'On Warranty' => 'WNT'
+        'STORE ROOM' => 'STORE ROOM',
+        'On Warranty' => 'On Warranty'
     ];
     public function __construct(){
         $this->middleware('auth');
@@ -25,7 +25,7 @@ class IvendorsController extends Controller
     public function show($id){
         $object= Ivendor::findOrFail($id);
         $iassets= $object->iassets;
-        $asset_status= array_keys($this->asset_status);
+        $asset_status= $this->asset_status;
         $attributes = ['Name', 'Address', 'Mobile', 'Phone', 'Email'];
         return view('ivendors.show',compact('object', 'attributes', 'iassets','asset_status'));
     }

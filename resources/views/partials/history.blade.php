@@ -94,7 +94,7 @@
                     {{ $asset['warranty'].' yrs' }}
                 </td>
                 <td>
-                    {{ $asset_status[$asset['status']] }}
+                    {{ $asset['status'] }}
                 </td>
             </tr>
         @endforeach

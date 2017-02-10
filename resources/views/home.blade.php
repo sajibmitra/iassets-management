@@ -82,28 +82,23 @@
         <div class="col-md-8">
             <!-- begin macbook pro mockup -->
             <div class="md-macbook-pro md-glare">
-                <div class="md-lid">
+                <div class="md-lid">""
                     <div class="md-camera"></div>
                     <div class="md-screen">
                         <!-- content goes here -->
                         <div class="tab-featured-image">
                             <div class="tab-content">
-                                <div class="tab-pane  in active" id="tab1">
-                                    <img src="images/sajib.jpg?dpr=2&fit=crop&fm=jpg&h=650&q=75&w=950" alt="tab1" class="img img-responsive">
+                                <div class="tab-pane  active" id="tab1">
+                                    <img src="images/sajib.png?dpr=2&fit=crop&fm=jpg&h=650&q=75&w=950" alt="tab1" class="img img-responsive">
                                 </div>
                                 <div class="tab-pane " id="tab2">
-
                                     <img src="images/users.png">
-
                                 </div>
                                 <div class="tab-pane fade" id="tab3">
-
-                                    <img src="images/ivendors.png" alt="tab1" class="img img-responsive">
+                                    <img src="images/assets.png" alt="tab1" class="img img-responsive">
                                 </div>
-
                                 <div class="tab-pane fade" id="tab4">
-
-                                    <img src="images/sajib.png" alt="tab1" class="img img-responsive">
+                                    <img src="images/shops.png" alt="tab1" class="img img-responsive">
                                 </div>
                             </div>
                         </div>

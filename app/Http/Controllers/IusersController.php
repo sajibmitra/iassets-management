@@ -8,53 +8,44 @@ use App\Iuser;
 class IusersController extends Controller
 {
     protected $roles    = [
-        'User'  => 'USR__',
-        'Super User' => 'SU___',
-        'Admin' => 'ADMIN'
+        'User'  => 'User',
+        'Super User' => 'Super User',
+        'Admin' => 'Admin',
     ];
     protected $designations = [
-        'Not Assigned' => 'NA__',
-        'Governor'   => 'G__',
-        'Deputy Governor' => 'DG_',
-        'Executive Director'   => 'ED_',
-        'General Manager' => 'GM_',
-        'Deputy General Manager' => 'DGM',
-        'Joint Director' => 'JD_',
-        'Deputy Director' => 'DD_',
-        'Assistant Director' => 'AD_',
-        'Officer'   => 'OFF'
+        'Officer'   => 'Officer',
+        'Assistant Director' => 'Assistant Director',
+        'Deputy Director' => 'Deputy Director',
+        'Joint Director' => 'Joint Director',
+        'Deputy General Manager' => 'Deputy General Manager',
+        'General Manager' => 'General Manager',
+        'Executive Director'   => 'Executive Director',
+        'Deputy Governor' => 'Deputy Governor',
+        'Governor'   => 'Governor',
     ];
-    protected $departments = [
-        'Not Assigned' => 'NA__',
-        'Establishment'   => 'EST_',
-        'Foreign Exchange Policy Dept.' => 'FEPD',
-        'CASH'   => 'CASH',
-        'Dept. of Bank Inspection' => 'DBI_',
-        'Banking' => 'BNK_',
-        'Agriculture and Credit Dept.' => 'ACD_',
-        'SME and Special Programs Dept.' => 'SME_'
-    ];
-    protected $sections = [
-        'Not Assigned' => 'NA_',
-        'Staff Section' => 'STF',
-        'Dead Stock' => 'DS_',
-        'GM Section'   => 'GM_',
-        'ED Section'   => 'ED_',
-        'Advanced Payment'=> 'AVP',
-        'Engineering'   => 'ENG',
-        'ICT CELL'    => 'ICT',
-        'Stationery'=> 'STA',
-        'Bill Pay Section' => 'BPS',
-        'CASH'   => 'CAS',
-        'Medical'    => 'MED',
-        'Welfare'=> 'WEL',
-        'Dept. of Bank Inspection' => 'DBI',
-        'Prize Bond'   => 'PBS',
-        'PAD'    => 'PAD',
-        'DAB'=> 'DAB',
-        'Banking' => 'BNK',
-        'CIPC'   => 'CMS',
-        'Store Room' => 'STR'
+    protected $secDeptMapping = [
+        'Establishment'=> array('ED Section'=>'ED Section',
+            'GM Section'=>'GM Section',
+            'Staff Section'=>'Staff Section',
+            'ICT CELL'=>'ICT CELL',
+            'Engineering'=>'Engineering',
+            'Dead Stock'=>'Dead Stock',
+            'Advanced Payment'=>'Advanced Payment',
+            'Stationery'=>'Stationery',
+            'Bill Pay Section'=>'Bill Pay Section',
+            'Verification Unit'=>'Verification Unit',
+            'Medical'=>'Medical',
+            'Welfare'=>'Welfare'),
+        'Small and Medium Enterprise'=> array('SME'=>'SME'),
+        'Agriculture and Credit Dept.' => array('ACD'=>'ACD'),
+        'Foreign Exchange Policy Dept.'=> array('FEPD'=>'FEPD'),
+        'CASH' => array('CASH Administration'=>'CASH Administration',
+            'CASH BPS'=>'CASH BPS',
+            'CASH Vault'=>'CASH Vault',
+            'CASH Pension'=>'CASH Pension',
+            'CASH PBS Receipt'=>'CASH PBS Receipt'),
+        'Dept. of Bank Inspection'=> array('DBI'=>'DBI', 'CIPC'=>'CIPC'),
+        'Banking'=> array('Prize Bond'=>'Prize Bond', 'PAD'=>'PAD','DAB'=>'DAB', 'Banking'=>'Banking')
     ];
 
     public function __construct(){
@@ -62,30 +53,28 @@ class IusersController extends Controller
     }
     public function index(){
         $objects= Iuser::all();
-        $sections=array_keys($this->sections);
-        $departments=array_keys($this->departments);
-        $designations= array_keys($this->designations);
-        $roles = array_keys($this->roles);
+        $designations= $this->designations;
+        $departments= array_keys($this->secDeptMapping);
+        $roles = $this->roles;
         $attributes = [ 'Name', 'Department', 'Section', 'Designation', 'Contact_No', 'Email', 'Role'];
-        return view('iusers.index', compact('objects', 'attributes','designations','departments','sections','roles'));
+        return view('iusers.index', compact('objects', 'attributes','designations','roles','departments'));
     }
     public function create(){
         $attributes = [ 'Name', 'Department', 'Section', 'Designation', 'Contact_No', 'Email', 'Role'];
-        $sections=array_keys($this->sections);
-        $departments=array_keys($this->departments);
-        $designations= array_keys($this->designations);
-        $roles = array_keys($this->roles);
-        return view('iusers.create', compact('object', 'attributes','sections','departments', 'designations','roles','iassets'));
+        $secDeptMapping=$this->secDeptMapping;
+        $designations= $this->designations;
+        $roles = $this->roles;
+        return view('iusers.create', compact('object', 'attributes', 'designations','roles','iassets', 'secDeptMapping'));
     }
     public function show($id){
         $object= Iuser::findOrFail($id);
         $iassets= $object->iassets;
+        $departments= array_keys($this->secDeptMapping);
         $attributes = [ 'Name', 'Department', 'Section', 'Designation', 'Contact_No', 'Email', 'Role'];
-        $sections=array_keys($this->sections);
-        $departments=array_keys($this->departments);
-        $designations= array_keys($this->designations);
-        $roles = array_keys($this->roles);
-        return view('iusers.show', compact('object', 'attributes','sections','departments', 'designations','roles','iassets'));
+        $secDeptMapping=$this->secDeptMapping;
+        $designations= $this->designations;
+        $roles = $this->roles;
+        return view('iusers.show', compact('object', 'attributes', 'designations','roles','iassets','secDeptMapping','departments'));
     }
     public function store(Request $request){
         $request['password']='_NOT_SET_';

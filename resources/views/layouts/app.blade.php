@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Iassets Mamn') }}</title>
 
     <!-- Styles -->
-    <link href="/css/app.css" rel="stylesheet">
+    <link href="/css/all.css" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
@@ -97,5 +97,6 @@
 
     <!-- Scripts -->
     <script src="{{ url('js/all.js')}}"></script>
+    @yield('footer')
 </body>
 </html>

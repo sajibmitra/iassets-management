@@ -10,10 +10,10 @@ class IassetsController extends Controller
 {
     //Add your attribute into following table carefully[at the bottom of any array...]
     protected $asset_status   =[
-        'GOOD'   => 'GDD',
+        'GOOD'   => 'GOOD',
         'BAD'   => 'BAD',
-        'STORE ROOM' => 'DAM',
-        'On Warranty' => 'WNT'
+        'STORE ROOM' => 'STORE ROOM',
+        'On Warranty' => 'On Warranty'
     ];
     protected $asset_brand   =[
         'Apple' => 'APPLE',
@@ -37,29 +37,37 @@ class IassetsController extends Controller
         'Scanner' => 'BS',
         'Switch'   => 'SW',
         'Projector' => 'PJ',
-        'Router'    => 'RU'
+        'Router'    => 'RU',
     ];
 
     protected $sections = [
-        'Staff Section' => 'STF',
-        'Dead Stock' => 'DS_',
-        'GM Section'   => 'GM_',
         'ED Section'   => 'ED_',
-        'Advanced Payment'=> 'AVP',
-        'Engineering'   => 'ENG',
+        'GM Section'   => 'GM_',
+        'Staff Section' => 'STF',
         'ICT CELL'    => 'ICT',
+        'Engineering'   => 'ENG',
+        'Dead Stock' => 'DS_',
+        'Advanced Payment'=> 'AVP',
         'Stationery'=> 'STA',
         'Bill Pay Section' => 'BPS',
-        'CASH'   => 'CAS',
+        'Verification Unit' => 'VU_',
         'Medical'    => 'MED',
         'Welfare'=> 'WEL',
-        'Dept. of Bank Inspection' => 'DBI',
+        'SME'  => 'SME',
+        'ACD' => 'ACD',
+        'FEPD'=> 'FEPD',
+        'CASH Administration'   => 'C-A',
+        'CASH BPS' => 'C-B',
+        'CASH Vault'=> 'C-V',
+        'CASH Pension'=> 'C-P',
+        'CASH PBS Receipt' => 'CPR',
+        'DBI' => 'DBI',
+        'CIPC' => 'CMS',
         'Prize Bond'   => 'PBS',
         'PAD'    => 'PAD',
         'DAB'=> 'DAB',
         'Banking' => 'BNK',
-        'CIPC'   => 'CMS',
-        'Store Room' => 'STR'
+        'Store Room' => 'STR',
     ];
     public function __construct(){
         $this->middleware('auth');
@@ -67,48 +75,57 @@ class IassetsController extends Controller
 
     public function  index () {
         $objects= Iasset::latest('updated_at')->get();
-        $attributes = [ 'Unique_Office_Id', 'Type', 'Brand', 'Entry_At', 'Status', 'Section', 'Iuser_Id', 'Ivendor_Id'];
-        $user_list= array_keys(Iuser::all()->keyBy('name')->toArray());
-        array_unshift($user_list,"");
-        unset($user_list[0]);
-        $vendor_list= array_keys(Ivendor::all()->keyBy('name')->toArray());
-        array_unshift($vendor_list,"");
-        unset($vendor_list[0]);
+        $attributes = [ 'Unique_Office_Id', 'Type', 'Brand', 'Entry_At', 'Status', 'Iuser_Id', 'Ivendor_Id'];
+        $allUsers= Iuser::all('id','name')->toArray();
+        $user_list = [];
+        foreach ($allUsers as $user){
+            $user_list[$user['id']]=$user['name'];
+        }
+        $vendors= Ivendor::all('id','name');
+        $vendor_list = [];
+        foreach ($vendors as $vendor){
+            $vendor_list[$vendor['id']]=$vendor['name'];
+        }
         $types = array_keys($this->asset_type);
-        $sections=array_keys($this->sections);
-        $asset_status=array_keys($this->asset_status);
+        $asset_status=$this->asset_status;
         $asset_brand=array_keys($this->asset_brand);
-        return view('iassets.index', compact('objects', 'attributes', 'types', 'sections','asset_status','asset_brand','user_list','vendor_list'));
+        return view('iassets.index', compact('objects', 'attributes', 'types','asset_status','asset_brand','user_list','vendor_list'));
     }
     public function show($id){
         $object= Iasset::findOrFail($id);
         $users = $object->iusers;
-        $user_list= array_keys(Iuser::all()->keyBy('name')->toArray());
-        array_unshift($user_list,"");
-        unset($user_list[0]);
-        $vendor_list= array_keys(Ivendor::all()->keyBy('name')->toArray());
-        array_unshift($vendor_list,"");
-        unset($vendor_list[0]);
-        $attributes = [ 'Unique_Office_Id', 'Type', 'Brand', 'Model', 'Serial_id', 'Product_ID', 'Purchase_at', 'Entry_At', 'Warranty', 'Status', 'Section', 'Iuser_Id', 'Ivendor_Id'];
+        $allUsers= Iuser::all('id','name')->toArray();
+        $user_list = [];
+        foreach ($allUsers as $user){
+            $user_list[$user['id']]=$user['name'];
+        }
+        $vendors= Ivendor::all('id','name');
+        $vendor_list = [];
+        foreach ($vendors as $vendor){
+            $vendor_list[$vendor['id']]=$vendor['name'];
+        }
+        $attributes = [ 'Type', 'Brand', 'Model', 'Serial_id', 'Product_ID', 'Purchase_at', 'Entry_At', 'Warranty', 'Iuser_Id', 'Ivendor_Id'];
         $types = array_keys($this->asset_type);
-        $sections=array_keys($this->sections);
-        $asset_status=array_keys($this->asset_status);
+        $asset_status=$this->asset_status;
         $asset_brand=array_keys($this->asset_brand);
-        return view('iassets.show',compact('object', 'attributes', 'types', 'sections','asset_status','asset_brand','users', 'user_list', 'vendor_list'));
+        return view('iassets.show',compact('object', 'attributes', 'types', 'asset_status','asset_brand','users', 'user_list', 'vendor_list'));
     }
     public function create(){
-        $attributes = [ 'Type', 'Brand', 'Model', 'Serial_id', 'Product_ID', 'Unique_Office_Id', 'Purchase_at', 'Entry_At', 'Warranty', 'Status', 'Section', 'Iuser_Id', 'Ivendor_Id'];
-        $user_list= array_keys(Iuser::all()->keyBy('name')->toArray());
-        array_unshift($user_list,"");
-        unset($user_list[0]);
-        $vendor_list= array_keys(Ivendor::all()->keyBy('name')->toArray());
-        array_unshift($vendor_list,"");
-        unset($vendor_list[0]);
+        $attributes = [ 'Type', 'Brand', 'Model', 'Serial_id', 'Product_ID', 'Unique_Office_Id', 'Purchase_at', 'Entry_At', 'Warranty', 'Status', 'Iuser_Id', 'Ivendor_Id'];
+        $allUsers= Iuser::all('id','name')->toArray();
+        $user_list = [];
+        foreach ($allUsers as $user){
+            $user_list[$user['id']]=$user['name'];
+        }
+        $vendors= Ivendor::all('id','name');
+        $vendor_list = [];
+        foreach ($vendors as $vendor){
+            $vendor_list[$vendor['id']]=$vendor['name'];
+        }
         $types = array_keys($this->asset_type);
-        $sections=array_keys($this->sections);
-        $asset_status=array_keys($this->asset_status);
+        $asset_status=$this->asset_status;
         $asset_brand=array_keys($this->asset_brand);
-        return view('iassets.create', compact('attributes','types','sections','asset_status', 'asset_brand','user_list','vendor_list'));
+        return view('iassets.create', compact('attributes','types', 'asset_status', 'asset_brand','user_list','vendor_list'));
     }
     public function store(Request $request){
         $request['iasset_id']= $this->getIassetId($request);
@@ -136,7 +153,7 @@ class IassetsController extends Controller
         $yy= substr($date,2,2);
         $mm= substr($date,5,2);
         $dd= substr($date,8,2);
-        $section=$this->sections[array_keys($this->sections)[$request->get('section')]];
+        $section=$this->sections[IUser::findOrFail($request['iuser_id'])->section];
         $warranty= $request->get('warranty');
         $serial = Iasset::where('type', '=', $request->get('type'))->count();
         return $type.$dd.$mm.$yy.$brand.$warranty.$section.$serial;

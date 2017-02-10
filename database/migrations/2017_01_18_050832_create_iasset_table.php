@@ -25,7 +25,6 @@ class CreateIassetTable extends Migration
             $table->timestamp('entry_at')->nullable();
             $table->integer('warranty');
             $table->string('status');
-            $table->string('section');
             $table->integer('iuser_id')->unsigned();
             $table->integer('ivendor_id')->unsigned();
             $table->timestamps();

@@ -1,6 +1,10 @@
+.home {
+  color: #000000;
+}
+
 body {
-  padding-top: 10px;
-  color: purple;
+  padding-top: 0px;
+  color: #070707;
 }
 
 body, label, .checkbox label {
