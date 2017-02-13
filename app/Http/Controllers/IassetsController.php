@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Requests\CreateIassetRequest;
 use Illuminate\Http\Request;
-use App\Http\Requests;
 use App\Iasset;
 use App\Iuser;
 use App\Ivendor;
@@ -44,7 +44,7 @@ class IassetsController extends Controller
         'ED Section'   => 'ED_',
         'GM Section'   => 'GM_',
         'Staff Section' => 'STF',
-        'ICT CELL'    => 'ICT',
+        'ICT Cell'    => 'ICT',
         'Engineering'   => 'ENG',
         'Dead Stock' => 'DS_',
         'Advanced Payment'=> 'AVP',
@@ -104,7 +104,7 @@ class IassetsController extends Controller
         foreach ($vendors as $vendor){
             $vendor_list[$vendor['id']]=$vendor['name'];
         }
-        $attributes = [ 'Type', 'Brand', 'Model', 'Serial_id', 'Product_ID', 'Purchase_at', 'Entry_At', 'Warranty', 'Iuser_Id', 'Ivendor_Id'];
+        $attributes = [ 'Type', 'Brand', 'Model', 'Serial_id', 'Product_ID', 'Purchase_at', 'Entry_At', 'Warranty', 'Status', 'Iuser_Id', 'Ivendor_Id'];
         $types = array_keys($this->asset_type);
         $asset_status=$this->asset_status;
         $asset_brand=array_keys($this->asset_brand);
@@ -127,7 +127,7 @@ class IassetsController extends Controller
         $asset_brand=array_keys($this->asset_brand);
         return view('iassets.create', compact('attributes','types', 'asset_status', 'asset_brand','user_list','vendor_list'));
     }
-    public function store(Request $request){
+    public function store(CreateIassetRequest $request){
         $request['iasset_id']= $this->getIassetId($request);
         $request['unique_office_id']=$this->asset_type[array_keys($this->asset_type)[$request->get('type')]].'-'.$request->get('unique_office_id');
         $asset = new Iasset($request->all());
@@ -145,7 +145,7 @@ class IassetsController extends Controller
     /**
      * @param Request $request
      */
-    public function getIassetId(Request $request)
+    public function getIassetId(CreateIassetRequest $request)
     {
         $type=$this->asset_type[array_keys($this->asset_type)[$request->get('type')]];
         $brand=$this->asset_brand[array_keys($this->asset_brand)[$request->get('brand')]];
@@ -153,7 +153,7 @@ class IassetsController extends Controller
         $yy= substr($date,2,2);
         $mm= substr($date,5,2);
         $dd= substr($date,8,2);
-        $section=$this->sections[IUser::findOrFail($request['iuser_id'])->section];
+        $section=$this->sections[Iuser::findOrFail($request['iuser_id'])['section']];
         $warranty= $request->get('warranty');
         $serial = Iasset::where('type', '=', $request->get('type'))->count();
         return $type.$dd.$mm.$yy.$brand.$warranty.$section.$serial;

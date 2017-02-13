@@ -14,26 +14,47 @@
                     {{$types[object_get($object, strtolower($attribute), null)]}}
                 @elseif($attribute == 'Iuser_Id' )
                     <?php $id=object_get($object, strtolower($attribute), null)?>
-                    <a href="{{ url('iusers/'.$id)}}"> {{$user_list[$id]}}</a>
+                    @if($id == null)
+                        {{'No User Id'}}
+                    @else
+                        <a href="{{ url('iusers/'.$id)}}"> {{$user_list[$id]}}</a>
+                    @endif
                 @elseif($attribute == 'Ivendor_Id' )
-                    {{$vendor_list[object_get($object, strtolower($attribute), null)]}}
+                    <?php $id=object_get($object, strtolower($attribute), null)?>
+                    @if($id == null)
+                        {{'No User Id'}}
+                    @else
+                        <a href="{{ url('ivendors/'.$id)}}"> {{$vendor_list[$id]}}</a>
+                    @endif
                 @elseif($attribute == 'Lnk_Printer_Id' )
                     <?php $id = object_get($object, strtolower($attribute), null) ?>
-                        @if($id == null)
-                            {{'No Printer'}}
-                        @else
-                            {{$lnk_printer_list[$id]}}
-                        @endif
+                    @if($id == null)
+                        {{'No Printer'}}
+                    @else
+                        {{$lnk_printer_list[$id]}}
+                    @endif
                 @elseif($attribute == 'Net_Switch_Id')
                     <?php $id = object_get($object, strtolower($attribute), null) ?>
-                    {{$net_switch_list[$id]}}
+                    @if($id == null)
+                        {{'Printer Not Found'}}
+                    @else
+                        {{$net_switch_list[$id]}}
+                    @endif
                 @elseif($attribute == 'OS_Detail_Info' )
                     <?php $id = object_get($object, strtolower($attribute), null) ?>
-                    {{$os_info_list[$id]}}
+                    @if($id == null)
+                        {{'OS Info Missing'}}
+                    @else
+                        {{$os_info_list[$id]}}
+                    @endif
                 @elseif($attribute == 'Asset_List' )
-                    @foreach($assets as $id => $unique_office_id)
-                      <a href="{{ url('iassets/'.$id)}}"> {{ $unique_office_id }} </a>
-                    @endforeach
+                    @if($lnk_assets != null)
+                        @foreach($lnk_assets as $id => $unique_office_id)
+                          <a href="{{ url('iassets/'.$id)}}"> {{ $unique_office_id }} </a>
+                        @endforeach
+                    @else
+                        {{'Empty Asset List'}}
+                    @endif
                 @else
                     {{object_get($object, strtolower($attribute), null)}}
                 @endif

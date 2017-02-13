@@ -14,12 +14,20 @@
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="newasset">
-                            <?php $linkTag = 'Iworkstation'; $assets=['']?>
+                            <?php $linkTag = 'Iworkstation'; $assets=['']; $lnk_assets =[]?>
                                 @include('partials.form', ['submitButtonText'=>'Add '.$linkTag])
                         </div>
                     </div>
                     {!! Form::close() !!}
                 </div>
+                @if($errors->any())
+                    <ul class="alert alert-danger">
+                        @foreach($errors->all() as $error)
+                            <li> {{ $error }}</li>
+                        @endforeach
+                    </ul>
+                @endif
+
             </div>
         </div>
     </div>

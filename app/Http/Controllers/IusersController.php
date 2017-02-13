@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
-use App\Http\Requests;
+use App\Http\Requests\CreateIuserRequest;
 use App\Iuser;
 
 class IusersController extends Controller
@@ -27,7 +26,7 @@ class IusersController extends Controller
         'Establishment'=> array('ED Section'=>'ED Section',
             'GM Section'=>'GM Section',
             'Staff Section'=>'Staff Section',
-            'ICT CELL'=>'ICT CELL',
+            'ICT Cell'=>'ICT CELL',
             'Engineering'=>'Engineering',
             'Dead Stock'=>'Dead Stock',
             'Advanced Payment'=>'Advanced Payment',
@@ -76,13 +75,17 @@ class IusersController extends Controller
         $roles = $this->roles;
         return view('iusers.show', compact('object', 'attributes', 'designations','roles','iassets','secDeptMapping','departments'));
     }
-    public function store(Request $request){
+    public function store(CreateIuserRequest $request){
+        $this->validate($request, [
+        'contact_no' => 'required|size:11|unique:iusers',
+            'email' => 'required|unique:iusers',
+        ]);
         $request['password']='_NOT_SET_';
         $user = new Iuser($request->all());
         $user->save();
         return redirect('iusers');
     }
-    public function update($id, Request $request){
+    public function update($id, CreateIuserRequest $request){
         $user = Iuser::findOrFail($id);
         $user->update($request->all());
         return redirect('iusers');

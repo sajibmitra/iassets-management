@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests;
+use App\Http\Requests\CreateIvendorRequest;
 use App\Ivendor;
 
 class IvendorsController extends Controller
@@ -33,12 +32,16 @@ class IvendorsController extends Controller
         $attributes = ['Name', 'Address', 'Mobile', 'Phone', 'Email'];
         return view('ivendors.create', compact('attributes'));
     }
-    public function store(Request $request){
+    public function store(CreateIvendorRequest $request){
+        $this->validate($request, [
+            'mobile' => 'required|size:11|unique:ivendors',
+            'email' => 'required|unique:ivendors',
+        ]);
         $vendor = new Ivendor($request->all());
         $vendor->save();
         return redirect('ivendors');
     }
-    public function update(Request $request, $id){
+    public function update(CreateIvendorRequest $request, $id){
         $vendor = Ivendor::findOrFail($id);
         $vendor->update($request->all());
         return redirect('ivendors');

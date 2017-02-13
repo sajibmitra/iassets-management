@@ -6,8 +6,11 @@
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#detail" aria-controls="detail" role="tab" data-toggle="tab">Detail</a></li>
                     <li role="presentation"><a href="#update" aria-controls="update" role="tab" data-toggle="tab">Edit</a></li>
-                    @if($linkTag == 'Iasset' || $linkTag == 'Iuser' || $linkTag == 'Ivendor')
+                    @if($linkTag == 'Iasset' || $linkTag == 'Iuser' || $linkTag == 'Ivendor' )
                         <li role="presentation"><a href="#history" aria-controls="history" role="tab" data-toggle="tab">History</a></li>
+                    @elseif($linkTag == 'Iworkstation')
+                        <li role="presentation"><a href="#userHistory" aria-controls="userHistory" role="tab" data-toggle="tab">History of Users</a></li>
+                        <li role="presentation"><a href="#assetHistory" aria-controls="assetHistory" role="tab" data-toggle="tab">History of Assets</a></li>
                     @endif
                 </ul>
 
@@ -32,8 +35,24 @@
                             @include('partials.form', ['submitButtonText'=>'Update '.$linkTag])
                         {!! Form::close() !!}
                     </div>
+                    @if($errors->any())
+                        <ul class="alert alert-danger">
+                            @foreach($errors->all() as $error)
+                                <li> {{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
                     @if($linkTag == 'Iasset' || $linkTag == 'Iuser' || $linkTag == 'Ivendor')
                         <div role="tabpanel" class="tab-pane" id="history">
+                            @include('partials.history')
+                        </div>
+                    @elseif($linkTag == 'Iworkstation')
+                        <div role="tabpanel" class="tab-pane" id="userHistory">
+                            <?php $histFlag = 'Iuser' ?>
+                            @include('partials.history')
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="assetHistory">
+                            <?php $histFlag = 'Iasset' ?>
                             @include('partials.history')
                         </div>
                     @endif

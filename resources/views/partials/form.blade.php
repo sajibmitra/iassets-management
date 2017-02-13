@@ -88,7 +88,7 @@
     @elseif($attribute == 'Asset_List')
         <div class={{ $gui_area }}>
             {!! Form::label('asset_list', 'Connected Assets: ') !!}
-            {!! Form::select('asset_list[]', $asset_list, array_keys($assets), ['id'=>'asset_list','class'=>'form-control','multiple']) !!}
+            {!! Form::select('asset_list[]', $asset_list, array_keys($lnk_assets), ['id'=>'asset_list','class'=>'form-control','multiple']) !!}
         </div>
     @elseif($attribute == 'Unique_Office_Id')
         <div class={{ $gui_area }}>
