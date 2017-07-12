@@ -16,12 +16,12 @@ class CreateIworkstationTable extends Migration
             $table->increments('id');
             $table->string('iworkstation_id')->unique();
             $table->string('net_switch_id');
-            $table->string('net_switch_port');
-            $table->string('net_dhcp_ip');
+            $table->string('net_switch_port')->unique();
+            $table->string('net_dhcp_ip')->nullable();
             $table->string('net_mac_id');
             $table->string('net_login_status');
             $table->string('os_detail_info');
-            $table->string('net_faceplate_id')->nullable();
+            $table->string('net_faceplate_id')->unique();
             $table->string('lnk_printer_id')->nullable();
             $table->string('sys_product_id');
             $table->integer('iuser_id')->unsigned();

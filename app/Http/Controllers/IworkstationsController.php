@@ -100,6 +100,12 @@ class IworkstationsController extends Controller
     }
     public function store(CreateIworkstationRequest $request){
         $request['iworkstation_id']= $this->getIworkstationId($request);
+        $this->validate($request, [
+            'net_switch_port' => 'required|unique:iworkstations',
+            'iuser_id' => 'required|unique:iworkstations',
+            'net_faceplate_id' => 'required|unique:iworkstations',
+            'net_mac_id' => 'required|unique:iworkstations'
+        ]);
         $workstation = new Iworkstation($request->all());
         $workstation->save();
         $currentUser = $workstation->iuser_id;
@@ -146,7 +152,7 @@ class IworkstationsController extends Controller
     /**
      * @param Request $request
      */
-    public function getIworkstationId(Request $request){
+    public function getIworkstationId(CreateIworkstationRequest  $request){
         return $request->get('sys_product_id');
     }
 }

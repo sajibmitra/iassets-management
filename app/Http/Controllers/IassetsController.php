@@ -128,8 +128,12 @@ class IassetsController extends Controller
         return view('iassets.create', compact('attributes','types', 'asset_status', 'asset_brand','user_list','vendor_list'));
     }
     public function store(CreateIassetRequest $request){
+
         $request['iasset_id']= $this->getIassetId($request);
         $request['unique_office_id']=$this->asset_type[array_keys($this->asset_type)[$request->get('type')]].'-'.$request->get('unique_office_id');
+        $this->validate($request, [
+            'unique_office_id' => 'required|unique:iassets',
+        ]);
         $asset = new Iasset($request->all());
         $asset->save();
         $asset->iusers()->attach($asset->iuser_id);
@@ -137,7 +141,6 @@ class IassetsController extends Controller
     }
    public function update($id, Request $request){
        $asset = Iasset::findOrFail($id);
-       //$request['iasset_id']= $this->getIassetId($request);
        $asset->update($request->all());
        $asset->iusers()->attach($asset->iuser_id);
        return redirect('iassets');
