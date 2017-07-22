@@ -3,27 +3,27 @@
 @else
     <?php $gui_area="col-md-8"?>
 @endif
-
 @foreach($attributes as $key=>$attribute)
     @if(strtolower($attribute) == 'entry_at')
         <div class={{ $gui_area }}>
             {!! Form::label('entry_at','Entry At: ') !!}
-            {!! Form::input('entry_date','entry_at', date('Y-m-d'), ['id'=>'entry_date','class'=>'form-control']) !!}
+            {!! Form::input('entry_date','entry_at', date('Y-m-d'), ['id'=>'entry_date','class'=>'form-control', $editable]) !!}
         </div>
     @elseif(strtolower($attribute) == 'purchase_at')
         <div class={{ $gui_area }}>
                 {!! Form::label('purchase_at','Purchase At: ') !!}
-                {!! Form::input('purchase_date','purchase_at', date('Y-m-d'), ['id'=>'purchase_date', 'class'=>'form-control']) !!}
+                {!! Form::input('purchase_date','purchase_at', date('Y-m-d'), ['id'=>'purchase_date', 'class'=>'form-control', $editable]) !!}
         </div>
     @elseif($attribute == 'Type')
         <div class={{ $gui_area }}>
             {!! Form::label('type', 'Type: ') !!}
-            {!! Form::select('type', $types , null, ['id'=>'types','class'=>'form-control','single']) !!}
+            {!! Form::select('type', $types , null, ['id'=>'types','class'=>'form-control','single', $editable]) !!}
+
         </div>
     @elseif($attribute == 'Brand')
         <div class={{ $gui_area }}>
             {!! Form::label('brand', 'Brand: ') !!}
-            {!! Form::select('brand', $asset_brand, null, ['id'=>'asset_brand','class'=>'form-control','single']) !!}
+            {!! Form::select('brand', $asset_brand, null, ['id'=>'asset_brand','class'=>'form-control','single', $editable]) !!}
         </div>
     @elseif($attribute == 'Section')
         <div class={{ $gui_area }}>
@@ -53,7 +53,7 @@
     @elseif($attribute == 'Warranty')
         <div class={{ $gui_area }}>
             {!! Form::label('warranty', 'Warranty: ') !!}
-            {!! Form::select('warranty', [0, 1,2,3,4,5], null, ['id'=>'warranty','class'=>'form-control','single']) !!}
+            {!! Form::select('warranty', [0, 1,2,3,4,5], null, ['id'=>'warranty','class'=>'form-control','single', $editable]) !!}
         </div>
     @elseif($attribute == 'Iuser_Id')
         <div class={{ $gui_area }}>
@@ -63,7 +63,8 @@
     @elseif($attribute == 'Ivendor_Id')
         <div class={{ $gui_area }}>
             {!! Form::label('ivendor_id', 'Vendor Name: ') !!}
-            {!! Form::select('ivendor_id', $vendor_list, null, ['id'=>'vendor_list','class'=>'form-control','single']) !!}
+            {!! Form::select('ivendor_id', $vendor_list, null, ['id'=>'vendor_list','class'=>'form-control','single', $editable]) !!}
+
         </div>
     @elseif($attribute == 'Net_Switch_Id')
         <div class={{ $gui_area }}>

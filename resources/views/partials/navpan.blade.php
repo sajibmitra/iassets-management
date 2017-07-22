@@ -3,6 +3,7 @@
         <div class="col-md-6">
             <!-- Nav tabs -->
             <div class="card">
+                <?php $editable='enabled'?>
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#detail" aria-controls="detail" role="tab" data-toggle="tab">Detail</a></li>
                     <li role="presentation"><a href="#update" aria-controls="update" role="tab" data-toggle="tab">Edit</a></li>
@@ -32,7 +33,8 @@
                     </div>
                     <div role="tabpanel" class="tab-pane" id="update">
                         {!! Form::model($object, ['method'=>'PATCH','url'=>strtolower($linkTag.'s/').$object->id]) !!}
-                            @include('partials.form', ['submitButtonText'=>'Update '.$linkTag])
+                        <?php $editable='disabled'?>
+                        @include('partials.form', ['submitButtonText'=>'Update '.$linkTag, 'opCode'=>'Edit'])
                         {!! Form::close() !!}
                     </div>
                     @if($errors->any())

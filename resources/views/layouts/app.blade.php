@@ -9,13 +9,25 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Iassets Mamn') }}</title>
-
     <!-- Styles -->
     <link href="/css/all.css" rel="stylesheet">
+    <style type="text/css">
+        .navbar-brand>img {
+            max-height: 100%;
+            height: 100%;
+            width: auto;
+            margin: 0 auto;
 
+
+            /* probably not needed anymore, but doesn't hurt */
+            -o-object-fit: contain;
+            object-fit: contain;
+
+        }
+    </style>
     <!-- Scripts -->
     <script>
-        window.Laravel = <?php echo json_encode([
+        window.Laravel =<?php echo json_encode([
             'csrfToken' => csrf_token(),
         ]); ?>
     </script>
@@ -33,11 +45,10 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
+                    <a class="navbar-brand" href="{{ url('/') }}" >
                         {{ config('app.name', 'Iassets Mamn') }}
                     </a>
+
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">

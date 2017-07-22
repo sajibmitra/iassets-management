@@ -9,11 +9,15 @@ use App\Ivendor;
 class IassetsController extends Controller
 {
     //Add your attribute into following table carefully[at the bottom of any array...]
-    protected $asset_status   =[
-        'GOOD'   => 'GOOD',
-        'BAD'   => 'BAD',
-        'STORE ROOM' => 'STORE ROOM',
-        'On Warranty' => 'On Warranty'
+    protected $asset_type = [
+        'CPU'   => 'BC',
+        'Monitor' => 'BM',
+        'UPS'   => 'BU',
+        'Printer'=> 'BP',
+        'Scanner' => 'BS',
+        'Switch'   => 'SW',
+        'Projector' => 'PJ',
+        'Router'    => 'RU',
     ];
     protected $asset_brand   =[
         'Apple' => 'APPLE',
@@ -29,15 +33,28 @@ class IassetsController extends Controller
         'SONY'  => 'SONY_',
         'Prolink' => 'PLINK'
     ];
-    protected $asset_type = [
-        'CPU'   => 'BC',
-        'Monitor' => 'BM',
-        'UPS'   => 'BU',
-        'Printer'=> 'BP',
-        'Scanner' => 'BS',
-        'Switch'   => 'SW',
-        'Projector' => 'PJ',
-        'Router'    => 'RU',
+    protected $asset_model =[
+        'Compaq dx7400 MT=>',
+        'Compaq dx7300 MT',
+        'Pro 2000 MT',
+        'Prodesk 600 G1 SFF',
+        'Prodesk 600 G2 SFF',
+        'Vostro 460',
+        'Optiplex 390',
+        'Optiplex 3020',
+        'Optiplex 3040',
+        'V194',
+        'LV1191',
+        'E190Hf',
+        'L1710Sc',
+        ''
+    ];
+
+    protected $asset_status   =[
+        'GOOD'   => 'GOOD',
+        'BAD'   => 'BAD',
+        'STORE ROOM' => 'STORE ROOM',
+        'On Warranty' => 'On Warranty'
     ];
 
     protected $sections = [

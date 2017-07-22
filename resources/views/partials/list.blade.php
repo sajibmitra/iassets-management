@@ -54,9 +54,7 @@
                         @else
                             <th><input type="text" style="text-align: center" class="form-control" placeholder={{$attribute}} disabled></th>
                         @endif
-
-
-                    @endforeach
+              @endforeach
                 </tr>
                 </thead>
                 <tbody>
@@ -76,10 +74,17 @@
                                             {{$types[object_get($object, strtolower($attribute), null)]}}
                                         @elseif($attribute == 'Iuser_Id' )
                                             <?php $id = object_get($object, strtolower($attribute), null) ?>
-                                            <a href="{{ url('iusers/'.$id)}}"> {{$user_list[$id]}} </a>
+
+                                                <a href="{{ url('iusers/'.$id)}}"> {{$user_list[$id]}} </a>
+
+
+
+
+
+
                                         @elseif($attribute == 'Ivendor_Id' )
                                             <?php $id = object_get($object, strtolower($attribute), null) ?>
-                                            <a href="{{ url('ivendors/'.$id)}}">  {{$vendor_list[$id]}} </a>
+                                            <a hrtnt ef="{{ url('ivendors/'.$id)}}">  {{$vendor_list[$id]}} </a>
                                         @elseif($attribute == 'Lnk_Printer_Id' )
                                             <?php $id = object_get($object, strtolower($attribute), null) ?>
                                                     @if($id == null)

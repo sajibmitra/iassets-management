@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | PDO Fetch Style
+    | PDO Fetch Stylel
     |--------------------------------------------------------------------------
     |
     | By default, database results will be returned as instances of the PHP
