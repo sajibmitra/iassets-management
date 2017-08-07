@@ -15,6 +15,7 @@ $(document).ready(function(){
     });
 
     $('.filterable .filters input').keyup(function(e){
+
         /* Ignore tab key */
         var code = e.keyCode || e.which;
         if (code == '9') return;
@@ -30,14 +31,22 @@ $(document).ready(function(){
             var value = $(this).find('td').eq(column).text().toLowerCase();
             return value.indexOf(inputContent) === -1;
         });
+
         /* Clean previous no-result if exist */
         $table.find('tbody .no-result').remove();
+
+        function myFunction(p1, p2) {
+            return p1 - p2;
+        }
+        document.getElementById("demo").innerHTML= 'Number of Items: '+ myFunction($rows.length, $filteredRows.length);
+
         /* Show all rows, hide filtered ones (never do that outside of a demo ! xD) */
         $rows.show();
         $filteredRows.hide();
+
         /* Prepend no-result row if all rows are filtered */
-        if ($filteredRows.length === $rows.length) {
-            $table.find('tbody').prepend($('<tr class="no-result text-center"><td colspan="'+ $table.find('.filters th').length +'">No result found</td></tr>'));
-        }
+        /*if ($filteredRows.length === $rows.length) {
+            $table.find('tbody').prepend($('<tr class="no-result text-center"><td colspan="'+ $table.find('.filters th').length +'"> No result found</td></tr>'));
+        }*/
     });
 });

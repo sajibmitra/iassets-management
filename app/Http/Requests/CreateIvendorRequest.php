@@ -24,8 +24,8 @@ class CreateIvendorRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:5|max:30',
-            'address' => 'required|min:5|max:50',
+            'name' => 'required|min:5|max:100',
+            'address' => 'required|min:5|max:100',
         ];
     }
 }

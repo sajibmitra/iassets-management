@@ -1,7 +1,6 @@
 <div class="container">
     <div class="row">
         <div class="panel panel-primary filterable">
-
             <div class="pull-right">
                 <button class="btn btn-default btn-xs btn-filter">
                     <span class="glyphicon glyphicon-filter"> Search Anything </span>  </button>
@@ -11,9 +10,10 @@
                     @if($linkTag == 'Iasset' || $linkTag == 'Iuser'|| $linkTag == 'Ivendor' || $linkTag == 'Iworkstation')
                         <a href="{{url( strtolower($linkTag.'s/create'))}}"> {{$linkTag.' (Create New)'}}</a>
                     @endif
+                        <p id= "demo" align="left"> <?php echo 'Number of Items: '. count($objects) ?></p>
                 </h3>
             </div>
-            <table class="table" >
+            <table class="table" style='font-family:"Verdana", sans-serif; font-size:100%'>
                 <thead>
                 <tr class="filters" bgcolor="#f4f4a4" >
                     @foreach($attributes as $attribute)
@@ -49,8 +49,8 @@
                             <th><input type="text" style="text-align: center" class="form-control" placeholder='Remote Login' disabled></th>
                         @elseif($attribute == 'Contact_No')
                             <th><input type="text" style="text-align: center" class="form-control" placeholder='Contact No' disabled></th>
-                        @elseif($attribute == 'Entry_At')
-                            <th><input type="text" style="text-align: center" class="form-control" placeholder='Entry Date' disabled></th>
+                        @elseif($attribute == 'Purchase_At')
+                            <th><input type="text" style="text-align: center" class="form-control" placeholder='Purchase At' disabled></th>
                         @else
                             <th><input type="text" style="text-align: center" class="form-control" placeholder={{$attribute}} disabled></th>
                         @endif
@@ -58,9 +58,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                <?php $rowColor ="#90dd90"; $rowColorFlag= true ?>
+                <?php $rowColor ="#90dd90"; $rowColorFlag= true; ?>
                     @foreach($objects as $object)
-                        <tr bgcolor= {{$rowColor}}>
+                        <tr bgcolor= {{$rowColor}}  >
                             @foreach($attributes as $key=>$attribute)
                                 <td align="center" >
                                     @if($key == 0)
@@ -70,21 +70,17 @@
                                             {{$asset_brand[object_get($object, strtolower($attribute), null)]}}
                                         @elseif($attribute == 'Department' )
                                             {{$departments[object_get($object, strtolower($attribute), null)]}}
+                                        @elseif($attribute == 'Designation' )
+                                            {{$designations[object_get($object, strtolower($attribute), null)]}}
                                         @elseif($attribute == 'Type' )
                                             {{$types[object_get($object, strtolower($attribute), null)]}}
                                         @elseif($attribute == 'Iuser_Id' )
                                             <?php $id = object_get($object, strtolower($attribute), null) ?>
 
-                                                <a href="{{ url('iusers/'.$id)}}"> {{$user_list[$id]}} </a>
-
-
-
-
-
-
+                                                <a href="{{ url('iusers/'.$id)}}"> {{str_limit($user_list[$id],10,'...')}} </a>
                                         @elseif($attribute == 'Ivendor_Id' )
                                             <?php $id = object_get($object, strtolower($attribute), null) ?>
-                                            <a hrtnt ef="{{ url('ivendors/'.$id)}}">  {{$vendor_list[$id]}} </a>
+                                            <a href="{{ url('ivendors/'.$id)}}">  {{ str_limit($vendor_list[$id],5,'...')}} </a>
                                         @elseif($attribute == 'Lnk_Printer_Id' )
                                             <?php $id = object_get($object, strtolower($attribute), null) ?>
                                                     @if($id == null)
@@ -98,8 +94,17 @@
                                         @elseif($attribute == 'Net_Switch_Id')
                                             <?php $id = object_get($object, strtolower($attribute), null) ?>
                                             {{$net_switch_list[$id]}}
-                                        @else
+                                        @elseif($attribute == 'Purchase_At')
+                                            {{Carbon\Carbon::parse(object_get($object, strtolower($attribute), null))->format('d.m.Y')}}
+                                        @elseif($attribute == 'Serial_Id')
                                             {{object_get($object, strtolower($attribute), null)}}
+                                        @else
+                                            @if($linkTag == 'Iasset')
+                                                {{str_limit(object_get($object, strtolower($attribute), null),10,'...')}}
+                                            @else
+                                                {{object_get($object, strtolower($attribute))}}
+                                            @endif
+
                                         @endif
                                     @endif
                                 </td>

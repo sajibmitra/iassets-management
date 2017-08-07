@@ -15,9 +15,11 @@ class IassetsController extends Controller
         'UPS'   => 'BU',
         'Printer'=> 'BP',
         'Scanner' => 'BS',
-        'Switch'   => 'SW',
-        'Projector' => 'PJ',
-        'Router'    => 'RU',
+        'Switch'   => 'BW',
+        'Projector' => 'BJ',
+        'Router'    => 'BR',
+        'Laptop'    => 'BL',
+        'iPad'  => 'BI'
     ];
     protected $asset_brand   =[
         'Apple' => 'APPLE',
@@ -31,28 +33,48 @@ class IassetsController extends Controller
         'LG'    => 'LG___',
         'Toshiba' => 'TSIBA',
         'SONY'  => 'SONY_',
-        'Prolink' => 'PLINK'
+        'Prolink' => 'PLINK',
+        'Power Pack'=> 'PPACK',
+        'PC Power' => 'PCPOW',
+        'Power Guard'=> 'POWGD',
+        'IOE LEUMS' => 'LEUMS',
+        'FLORA UPS' => 'FLORA',
+        'CLONE' => 'CLONE',
+        'Power Box'=> 'PBOX_',
+        'Canon' => 'CANON',
+        'APC' => 'APC__',
+        'Konica' => 'KONIC',
+        'PowerP5Sonic' => 'PP5SO',
+        'NOVA' => 'NOVA_',
+        'L-TECH' => 'LTECH',
+        'iNeat Ups'=> 'INEAT',
+        'Signal Digital Electronics' => 'SDELEC',
+        'dbm' => 'DBM__',
+        'Index' => 'INDEX',
+        'Other' => 'OTHER'
     ];
-    protected $asset_model =[
-        'Compaq dx7400 MT=>',
-        'Compaq dx7300 MT',
-        'Pro 2000 MT',
-        'Prodesk 600 G1 SFF',
-        'Prodesk 600 G2 SFF',
-        'Vostro 460',
-        'Optiplex 390',
-        'Optiplex 3020',
-        'Optiplex 3040',
-        'V194',
-        'LV1191',
-        'E190Hf',
-        'L1710Sc',
-        ''
+    protected $brandModelMapping =[
+        'HP'=> ['Compaq dx7400 MT', 'Compaq dx7300 MT', 'Pro 2000 MT', 'Prodesk 600 G1 SFF', 'Prodesk 600 G2 SFF', 'V194', 'LV1191','L1710Sc'],
+        'Dell' => ['Vostro 460', 'Optiplex 390', 'Optiplex 3020', 'Optiplex 3040','E190Hf'],
+        'Sumsang' => ['S19B150B'],
+        'Prolink' => ['Pro700c', '700c'],
+        'Power Pack' => ['Pro700'],
+        'PC Power' => [],
+        'Power Guard' => [],
+        'Power Pack' =>[],
+        'IOE LEUMS' =>['1000c'],
+        'FLORA UPS' =>[],
+        'Power Box' =>[],
     ];
 
     protected $asset_status   =[
         'GOOD'   => 'GOOD',
         'BAD'   => 'BAD',
+        'Faulty Display' => 'Faulty Display',
+        'No Display' => 'No Display',
+        'Faulty Mother Board' => 'Faulty Mother Board',
+        'Faulty Power Supply' =>'Faulty Power Supply',
+        'OS loading Problem' =>'OS loading Problem',
         'STORE ROOM' => 'STORE ROOM',
         'On Warranty' => 'On Warranty'
     ];
@@ -72,27 +94,29 @@ class IassetsController extends Controller
         'Welfare'=> 'WEL',
         'SME'  => 'SME',
         'ACD' => 'ACD',
-        'FEPD'=> 'FEPD',
-        'CASH Administration'   => 'C-A',
-        'CASH BPS' => 'C-B',
-        'CASH Vault'=> 'C-V',
-        'CASH Pension'=> 'C-P',
-        'CASH PBS Receipt' => 'CPR',
-        'DBI' => 'DBI',
-        'CIPC' => 'CMS',
+        'FEPD'=> 'FEP',
+        'CASH Administration'   => 'C_A',
+        'CASH BPS' => 'C_B',
+        'CASH Vault'=> 'C_V',
+        'CASH Pension'=> 'C_P',
+        'CASH PBS Receipt' => 'C_R',
+        'CASH DAB Counter' => 'C_D',
         'Prize Bond'   => 'PBS',
         'PAD'    => 'PAD',
         'DAB'=> 'DAB',
         'Banking' => 'BNK',
-        'Store Room' => 'STR',
+        'Currency' => 'CUR',
+        'DBI' => 'DBI',
+        'CIPC' => 'CMS',
+        'ICT Store Room' => 'STR',
+        'DS Store Room' => 'DSR',
     ];
     public function __construct(){
         $this->middleware('auth');
     }
-
     public function  index () {
         $objects= Iasset::latest('updated_at')->get();
-        $attributes = [ 'Unique_Office_Id', 'Type', 'Brand', 'Entry_At', 'Status', 'Iuser_Id', 'Ivendor_Id'];
+        $attributes = [ 'Unique_Office_Id', 'Type', 'Brand', 'Model', 'Serial_Id', 'Product_ID', 'Purchase_At', 'Status', 'Iuser_Id','Ivendor_Id'];
         $allUsers= Iuser::all('id','name')->toArray();
         $user_list = [];
         foreach ($allUsers as $user){
@@ -150,6 +174,7 @@ class IassetsController extends Controller
         $request['unique_office_id']=$this->asset_type[array_keys($this->asset_type)[$request->get('type')]].'-'.$request->get('unique_office_id');
         $this->validate($request, [
             'unique_office_id' => 'required|unique:iassets',
+            'serial_id' => 'required|unique:iassets',
         ]);
         $asset = new Iasset($request->all());
         $asset->save();
@@ -158,8 +183,13 @@ class IassetsController extends Controller
     }
    public function update($id, Request $request){
        $asset = Iasset::findOrFail($id);
+       $userChanged = true;
+       if($asset['iuser_id'] == $request['iuser_id'])
+           $userChanged= false;
        $asset->update($request->all());
-       $asset->iusers()->attach($asset->iuser_id);
+       if($userChanged){
+           $asset->iusers()->attach($asset->iuser_id);
+       }
        return redirect('iassets');
     }
     /**

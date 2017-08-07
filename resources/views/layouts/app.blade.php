@@ -10,7 +10,10 @@
 
     <title>{{ config('app.name', 'Iassets Mamn') }}</title>
     <!-- Styles -->
-    <link href="/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ elixir('css/all.css')}}" >
+    <!-- Scripts -->
+    <script src="{{ elixir('js/all.js')}}"></script>
+
     <style type="text/css">
         .navbar-brand>img {
             max-height: 100%;
@@ -106,8 +109,6 @@
         @yield('content')
     </div>
 
-    <!-- Scripts -->
-    <script src="{{ url('js/all.js')}}"></script>
     @yield('footer')
 </body>
 </html>

@@ -24,9 +24,9 @@ class CreateIassetRequest extends FormRequest
     public function rules()
     {
         return [
-            'serial_id' => 'required|min:5|max:20',
-            'product_id' => 'required|min:5|max:20',
-            'model'=> 'required|min:3|max:20',
+            'serial_id' => 'required|min:5|max:50',
+            'product_id' => 'required|min:5|max:50',
+            'model'=> 'required|min:3|max:50',
             'purchase_at' => 'required|date',
             'entry_at' => 'required|date',
             'warranty' => 'required',

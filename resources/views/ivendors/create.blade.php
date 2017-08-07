@@ -16,6 +16,7 @@
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="vendorinfo">
                             <?php $linkTag = 'Ivendor'?>
+                            <?php $editable='enabled'?>
                             @include('partials.form', ['submitButtonText'=>'Add '.$linkTag])
                         </div>
                     </div>

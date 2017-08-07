@@ -53,7 +53,7 @@
     @elseif($attribute == 'Warranty')
         <div class={{ $gui_area }}>
             {!! Form::label('warranty', 'Warranty: ') !!}
-            {!! Form::select('warranty', [0, 1,2,3,4,5], null, ['id'=>'warranty','class'=>'form-control','single', $editable]) !!}
+            {!! Form::select('warranty', [0,1,2,3,4,5], null, ['id'=>'warranty','class'=>'form-control','single', $editable]) !!}
         </div>
     @elseif($attribute == 'Iuser_Id')
         <div class={{ $gui_area }}>
@@ -94,12 +94,12 @@
     @elseif($attribute == 'Unique_Office_Id')
         <div class={{ $gui_area }}>
             {!! Form::label('unique_office_id', 'Office Id: ') !!}
-            {!! Form::selectRange('unique_office_id', 0, 500, ['id'=>'unique_office_id','class'=>'form-control','single']) !!}
+            {!! Form::text('unique_office_id', null, ['id'=>'unique_office_id','class'=>'form-control']) !!}
         </div>
     @elseif($attribute == 'Net_Switch_Port')
         <div class={{ $gui_area }}>
             {!! Form::label('net_switch_port', 'Switch Port: ') !!}
-            {!! Form::selectRange('net_switch_port', 0, 47, ['id'=>'net_switch_port','class'=>'form-control','single']) !!}
+            {!! Form::text('net_switch_port', null, ['id'=>'net_switch_port','class'=>'form-control']) !!}
         </div>
     @else
         <div class={{ $gui_area }}>

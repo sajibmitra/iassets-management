@@ -12,7 +12,7 @@ class IusersController extends Controller
         'Admin' => 'Admin',
     ];
     protected $designations = [
-        'Officer'   => 'Officer',
+        'Officer and below'   => 'Officer and below',
         'Assistant Director' => 'Assistant Director',
         'Deputy Director' => 'Deputy Director',
         'Joint Director' => 'Joint Director',
@@ -23,7 +23,7 @@ class IusersController extends Controller
         'Governor'   => 'Governor',
     ];
     protected $secDeptMapping = [
-        'Establishment'=> array('ED Section'=>'ED Section',
+        'Establishment'=> ['ED Section'=>'ED Section',
             'GM Section'=>'GM Section',
             'Staff Section'=>'Staff Section',
             'ICT Cell'=>'ICT CELL',
@@ -34,17 +34,23 @@ class IusersController extends Controller
             'Bill Pay Section'=>'Bill Pay Section',
             'Verification Unit'=>'Verification Unit',
             'Medical'=>'Medical',
-            'Welfare'=>'Welfare'),
-        'Small and Medium Enterprise'=> array('SME'=>'SME'),
-        'Agriculture and Credit Dept.' => array('ACD'=>'ACD'),
-        'Foreign Exchange Policy Dept.'=> array('FEPD'=>'FEPD'),
-        'CASH' => array('CASH Administration'=>'CASH Administration',
+            'Welfare'=>'Welfare'],
+        'Small and Medium Enterprise'=> ['SME'=>'SME'],
+        'Agriculture and Credit Dept.' => ['ACD'=>'ACD'],
+        'Foreign Exchange Policy Dept.'=> ['FEPD'=>'FEPD'],
+        'CASH' => ['CASH Administration'=>'CASH Administration',
             'CASH BPS'=>'CASH BPS',
             'CASH Vault'=>'CASH Vault',
             'CASH Pension'=>'CASH Pension',
-            'CASH PBS Receipt'=>'CASH PBS Receipt'),
-        'Dept. of Bank Inspection'=> array('DBI'=>'DBI', 'CIPC'=>'CIPC'),
-        'Banking'=> array('Prize Bond'=>'Prize Bond', 'PAD'=>'PAD','DAB'=>'DAB', 'Banking'=>'Banking')
+            'CASH PBS Receipt'=>'CASH PBS Receipt',
+            'CASH DAB Counter'=>'CASH DAB Counter'],
+        'Banking'=> ['Prize Bond'=>'Prize Bond',
+            'PAD'=>'PAD',
+            'DAB'=>'DAB',
+            'Banking'=>'Banking',
+            'Currency'=>'Currency'],
+        'Dept. of Bank Inspection'=> ['DBI'=>'DBI',
+            'CIPC'=>'CIPC']
     ];
 
     public function __construct(){
@@ -55,7 +61,7 @@ class IusersController extends Controller
         $designations= $this->designations;
         $departments= array_keys($this->secDeptMapping);
         $roles = $this->roles;
-        $attributes = [ 'Name', 'Department', 'Section', 'Designation', 'Contact_No', 'Email', 'Role'];
+        $attributes = [ 'Name', 'Department', 'Section', 'Designation', 'Role'];
         return view('iusers.index', compact('objects', 'attributes','designations','roles','departments'));
     }
     public function create(){
@@ -76,9 +82,11 @@ class IusersController extends Controller
         return view('iusers.show', compact('object', 'attributes', 'designations','roles','iassets','secDeptMapping','departments'));
     }
     public function store(CreateIuserRequest $request){
+        $request['contact_no']='XXXXXXXXXXX';
         $this->validate($request, [
-        'contact_no' => 'required|size:11|unique:iusers',
-            'email' => 'required|unique:iusers',
+            //cheange this
+        //'contact_no' => 'required|size:11|unique:iusers',
+            //'email' => 'required|unique:iusers',
         ]);
         $request['password']='_NOT_SET_';
         $user = new Iuser($request->all());

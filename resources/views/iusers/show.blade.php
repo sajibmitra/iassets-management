@@ -30,13 +30,11 @@
                     newOptions = <?php echo json_encode($secDeptMapping['CASH'], JSON_FORCE_OBJECT) ?>;
                     break;
                 case '5':
-                    newOptions = <?php echo json_encode($secDeptMapping['Dept. of Bank Inspection'], JSON_FORCE_OBJECT) ?>;
+                    newOptions = <?php echo json_encode($secDeptMapping['Banking'], JSON_FORCE_OBJECT) ?>;
                     break;
                 case '6':
-                    newOptions = {"AAA": "aaa",
-                        "BBB": "bbb",
-                        "CCC": "ccc"
-                    };break;
+                    newOptions = <?php echo json_encode($secDeptMapping['Dept. of Bank Inspection'], JSON_FORCE_OBJECT) ?>;
+                    break;
                 default:
                     newOptions = <?php echo json_encode($secDeptMapping['Banking'], JSON_FORCE_OBJECT) ?>;
                     break;

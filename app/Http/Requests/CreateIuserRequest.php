@@ -24,7 +24,7 @@ class CreateIuserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:5|max:20',
+            'name' => 'required|min:5|max:100',
             'department' => 'required',
             'section'=> 'required',
             'designation' => 'required',
