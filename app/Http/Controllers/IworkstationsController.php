@@ -123,28 +123,40 @@ class IworkstationsController extends Controller
         }
         return redirect('iworkstations');
     }
-    public function update($id, CreateIworkstationRequest $request)
-    {   $workstation = Iworkstation::findOrFail($id);
+    public function update($id, CreateIworkstationRequest $request){
+        $workstation = Iworkstation::findOrFail($id);
+
+        $userChanged = true;
+        if($workstation->iuser_id == $request->iuser_id)
+            $userChanged= false;
+
         $previousUser = $workstation->iuser_id;
-        $lnkAssets = Iasset::all('id','unique_office_id','iuser_id')->where('iuser_id',$previousUser);
-        foreach ($lnkAssets as $asset) {
+        if($userChanged){                       //Previous user has to release all assets
+            $lnkAssets = Iasset::all('id','unique_office_id','iuser_id')->where('iuser_id',$previousUser);
+            foreach ($lnkAssets as $asset) {
                 $asset->update(['iuser_id'=>$this->storeRoomUserID]);
                 $asset->iusers()->attach($this->storeRoomUserID);
             }
-        $workstation->update($request->all());
-        $currentUser = $workstation->iuser_id;
-        if($currentUser != $previousUser) {
-            $workstation->iusers()->attach($currentUser);
+            $workstation->iusers()->attach($this->storeRoomUserID); //entry for releasing user as storeRoomUser
         }
-        if ($request['asset_list'] != null) {
+
+        $workstation->update($request->all()); //update Workstations table
+        $currentUser = $workstation->iuser_id;
+
+        if($currentUser != $previousUser) {   //Iuser-Workstation linked table entry
+            $workstation->iusers()->attach($currentUser); //entry for new user in iuser-workstation
+        }
+
+        if ($request['asset_list'] != null) { //New User be linked with existing assets
             foreach ($request['asset_list'] as $iasset_id) {
-                $workstation->iassets()->attach($iasset_id);
+                $workstation->iassets()->attach($iasset_id); //updating iasset-workstation id
                     $asset= Iasset::findOrFail($iasset_id);
-                    $asset->update(['iuser_id'=>$currentUser]);
-                    $asset->iusers()->attach($currentUser);
+                    $asset->update(['iuser_id'=>$currentUser]); //updating user in iassets table
+                    $asset->iusers()->attach($currentUser); //updating iasset-iuser table
             }
         }
         else{
+
             //write some code here... for empty workstation
         }
         return redirect('iworkstations');
@@ -153,6 +165,9 @@ class IworkstationsController extends Controller
      * @param Request $request
      */
     public function getIworkstationId(CreateIworkstationRequest  $request){
-        return $request->get('sys_product_id');
+        $net_switch_id = $request->get('net_switch_id');
+        $net_faceplate_id = $request->get('net_faceplate_id');
+        $net_switch_port= $request->get('net_switch_port');
+        return 'BWS'.$net_switch_port;
     }
 }
