@@ -32,7 +32,7 @@ class CreateIusersTable extends Migration
                 'name' => 'ICT Store',
                 'department' => '0',
                 'section' => 'ICT Cell',
-                'designation' => '',
+                'designation' => 'Assistant Director',
                 'contact_no' => '01710283239',
                 'email' => 'admin-bar@bb.org.bd',
                 'role' => 'admin'
