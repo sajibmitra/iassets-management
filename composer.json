@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "sajibmitra/iassets-management",
+    "description": "ICT Assets Management",
+    "keywords": ["ICT Assets", "assets management", "Laravel"],
     "license": "MIT",
     "type": "project",
     "require": {
