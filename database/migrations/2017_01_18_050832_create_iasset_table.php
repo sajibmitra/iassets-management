@@ -32,8 +32,9 @@ class CreateIassetTable extends Migration
             $table->foreign('ivendor_id')->references('id')->on('ivendors')->onDelete('cascade');
         });
         Schema::create('iasset_iuser', function (Blueprint $table) {
-            $table->integer('iasset_id')->unsigned()->index();
-            $table->integer('iuser_id')->unsigned()->index();
+            $table->increments('id');
+            $table->integer('iasset_id')->unsigned();
+            $table->integer('iuser_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('iasset_id')

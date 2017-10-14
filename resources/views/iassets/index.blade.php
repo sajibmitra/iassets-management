@@ -3,5 +3,3 @@
     <?php $linkTag = 'Iasset'?>
     @include('partials.list')
 @endsection
-
-

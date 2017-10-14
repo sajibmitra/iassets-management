@@ -17,7 +17,15 @@ class Iasset extends Model
    public function setEntryAtAttribute($date){
         $this->attributes['entry_at']= Carbon::createFromFormat('Y-m-d', $date);
     }
-    
+
+
+  //   public function getPurchaseAtAttribute($date){
+  //       return $date;
+  //   }
+  //  public function getEntryAtAttribute($date){
+  //       return $date;
+  //   }
+
     /*    public function scopePublished($query){
             $query->where('entry_at','<=',Carbon::now());
         }

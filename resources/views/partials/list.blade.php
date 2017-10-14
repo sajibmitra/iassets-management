@@ -100,7 +100,7 @@
                                             {{object_get($object, strtolower($attribute), null)}}
                                         @else
                                             @if($linkTag == 'Iasset')
-                                                {{str_limit(object_get($object, strtolower($attribute), null),10,'...')}}
+                                                {{str_limit(object_get($object, strtolower($attribute), null),30,'...')}}
                                             @else
                                                 {{object_get($object, strtolower($attribute))}}
                                             @endif

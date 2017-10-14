@@ -30,7 +30,8 @@ class CreateIworkstationTable extends Migration
             $table->foreign('iuser_id')->references('id')->on('iusers')->onDelete('cascade');
         });
         Schema::create('iuser_iworkstation', function (Blueprint $table) {
-            $table->integer('iworkstation_id')->unsigned()->index();
+            $table->increments('id');
+            $table->integer('iworkstation_id')->unsigned();
             $table->integer('iuser_id')->nullable()->unsigned();
             $table->timestamps();
 
@@ -45,8 +46,9 @@ class CreateIworkstationTable extends Migration
         });
 
         Schema::create('iasset_iworkstation', function (Blueprint $table) {
-            $table->integer('iworkstation_id')->unsigned()->index();
-            $table->integer('iasset_id')->default(0)->unsigned()->index();
+            $table->increments('id');
+            $table->integer('iworkstation_id')->unsigned();
+            $table->integer('iasset_id')->default(0)->unsigned();
             $table->timestamps();
 
             $table->foreign('iworkstation_id')

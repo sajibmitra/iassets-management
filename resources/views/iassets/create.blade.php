@@ -18,6 +18,7 @@
                         <div role="tabpanel" class="tab-pane active" id="newasset">
                             <?php $linkTag = 'Iasset'?>
                             <?php $editable='enabled'?>
+                            <?php $opcode='create'?>
                                 @include('partials.form', ['submitButtonText'=>'Add '.$linkTag])
                         </div>
                     </div>

@@ -4,21 +4,10 @@
     <?php $gui_area="col-md-8"?>
 @endif
 @foreach($attributes as $key=>$attribute)
-    @if(strtolower($attribute) == 'entry_at')
-        <div class={{ $gui_area }}>
-            {!! Form::label('entry_at','Entry At: ') !!}
-            {!! Form::input('entry_date','entry_at', date('Y-m-d'), ['id'=>'entry_date','class'=>'form-control', $editable]) !!}
-        </div>
-    @elseif(strtolower($attribute) == 'purchase_at')
-        <div class={{ $gui_area }}>
-                {!! Form::label('purchase_at','Purchase At: ') !!}
-                {!! Form::input('purchase_date','purchase_at', date('Y-m-d'), ['id'=>'purchase_date', 'class'=>'form-control', $editable]) !!}
-        </div>
-    @elseif($attribute == 'Type')
+    @if($attribute == 'Type')
         <div class={{ $gui_area }}>
             {!! Form::label('type', 'Type: ') !!}
             {!! Form::select('type', $types , null, ['id'=>'types','class'=>'form-control','single', $editable]) !!}
-
         </div>
     @elseif($attribute == 'Brand')
         <div class={{ $gui_area }}>
@@ -64,7 +53,6 @@
         <div class={{ $gui_area }}>
             {!! Form::label('ivendor_id', 'Vendor Name: ') !!}
             {!! Form::select('ivendor_id', $vendor_list, null, ['id'=>'vendor_list','class'=>'form-control','single', $editable]) !!}
-
         </div>
     @elseif($attribute == 'Net_Switch_Id')
         <div class={{ $gui_area }}>
@@ -94,7 +82,7 @@
     @elseif($attribute == 'Unique_Office_Id')
         <div class={{ $gui_area }}>
             {!! Form::label('unique_office_id', 'Office Id: ') !!}
-            {!! Form::text('unique_office_id', null, ['id'=>'unique_office_id','class'=>'form-control']) !!}
+            {!! Form::text('unique_office_id', old('unique_office_id'), ['id'=>'unique_office_id','class'=>'form-control']) !!}
         </div>
     @elseif($attribute == 'Net_Switch_Port')
         <div class={{ $gui_area }}>
@@ -103,8 +91,18 @@
         </div>
     @else
         <div class={{ $gui_area }}>
-            {!! Form::label(strtolower($attribute), $attribute) !!}
-            {!! Form::text(strtolower($attribute), null, ['class'=>'form-control']) !!}
+            @if(strtolower($attribute) == 'entry_at'||strtolower($attribute) == 'purchase_at')
+                  @if($opcode == 'create')
+                      {!! Form::label(strtolower($attribute), $attribute) !!}
+                      {!! Form::text(strtolower($attribute), date('Y-m-d'), ['class'=>'form-control']) !!}
+                  @else
+                      {!! Form::label(strtolower($attribute), $attribute) !!}
+                      {!! Form::text(strtolower($attribute), null, ['class'=>'form-control', $editable]) !!}
+                  @endif
+            @else
+                    {!! Form::label(strtolower($attribute), $attribute) !!}
+                    {!! Form::text(strtolower($attribute), null, ['class'=>'form-control']) !!}
+            @endif
         </div>
     @endif
 @endforeach
