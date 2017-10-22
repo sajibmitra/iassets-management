@@ -5,17 +5,18 @@
             <div class="col-md-6">
                 <!-- Nav tabs -->
                 <div class="card" >
-                    {!! Form::open(['url'=>'iworkstations']) !!}
+                    {!! Form::open(['url'=>'iresponses']) !!}
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active"><a href="#newasset" aria-controls="newasset" role="tab" data-toggle="tab">
-                                <h3 class="panel-title"> Create New Workstation </h3></a>
+                                <h3 class="panel-title"> Create New response </h3></a>
                         </li>
                     </ul>
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="newasset">
-                            <?php $linkTag = 'Iworkstation'; $assets=['']; $lnk_assets =[]?>
+                            <?php $linkTag = 'Iresponse'?>
                             <?php $editable='enabled'?>
+                            <?php $opcode='create'?>
                                 @include('partials.form', ['submitButtonText'=>'Add '.$linkTag])
                         </div>
                     </div>
@@ -28,20 +29,29 @@
                         @endforeach
                     </ul>
                 @endif
-
             </div>
         </div>
     </div>
 @endsection
-
 @section('footer')
     <script>
+        $('#user_list').select2();
         $('#asset_list').select2();
-        $('#iuser_id').select2();
-        $('#net_switch_list').select2();
-        $('#os_detail_list').select2();
-        $('#lnk_printer_id').select2();
-        $('#net_login_status').select2();
-        $('#net_switch_port').select2();
+        $('#report_via').select2();
+        $('#request_dtl').select2();
+        $('#problem_status').select2();
+        $('#responder_list').select2();
+        $( "#requested_at" ).datepicker({
+          changeMonth: true,
+          changeYear: true,
+          dateFormat: 'yy-m-d',
+        });
+        $( "#finished_at" ).datepicker({
+          changeMonth: true,
+          changeYear: true,
+          dateFormat: 'yy-m-d',
+        });
     </script>
+    <!--link rel="stylesheet" href="/resources/demos/style.css"-->
+    <script>
 @endsection

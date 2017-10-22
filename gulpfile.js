@@ -20,12 +20,14 @@ elixir(function(mix) {
             'libs/bootstrap.min.css',
             'libs/font-awesome.min.css',
             'libs/Lato.css',
+            'libs/jquery-ui.css',
             'app.css',
             'libs/select2.min.css',
             'iassets.css'
         ], 'public/css/all.css', 'resources/css')
         .scripts([
             'libs/jquery.js',
+            'libs/jquery-ui.js',
             'libs/bootstrap.min.js',
             'libs/select2.min.js',
             'iassets.js',

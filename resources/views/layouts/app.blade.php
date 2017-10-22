@@ -72,6 +72,10 @@
                         <ul class="nav navbar-nav navbar-left">
                             <li><a href="{{url('iworkstations')}}"> Workstations </a></li>
                         </ul>
+                        <ul class="nav navbar-nav navbar-left">
+                            <li><a href="{{url('iresponses')}}"> Responses </a></li>
+                        </ul>
+
                     @endif
 
                     <!-- Right Side Of Navbar -->

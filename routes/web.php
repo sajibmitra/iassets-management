@@ -20,5 +20,5 @@ Route::resource('iassets','IassetsController');
 Route::resource('iusers','IusersController');
 Route::resource('ivendors','IvendorsController');
 Route::resource('iworkstations','IworkstationsController');
-
+Route::resource('iresponses','IresponsesController');
 Auth::routes();

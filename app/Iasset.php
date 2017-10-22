@@ -53,6 +53,10 @@ class Iasset extends Model
     }
 
     public function iworkstations(){
-        return $this->belongsToMany('App\Iworkstation')->withTimestamps()->orderBy('pivot_updated_at');;
+        return $this->belongsToMany('App\Iworkstation')->withTimestamps()->orderBy('pivot_updated_at');
+    }
+
+    public function iresponses(){
+      return $this->belongsToMany('App\Iresponse');
     }
 }

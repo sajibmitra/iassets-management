@@ -79,10 +79,50 @@
             {!! Form::label('asset_list', 'Connected Assets: ') !!}
             {!! Form::select('asset_list[]', $asset_list, array_keys($lnk_assets), ['id'=>'asset_list','class'=>'form-control','multiple']) !!}
         </div>
+    @elseif($attribute == 'Iasset_Dtl')
+        <div class={{ $gui_area }}>
+            {!! Form::label('iasset_dtl', 'Connected Assets: ') !!}
+            {!! Form::select('iasset_dtl', $asset_list, null, ['id'=>'asset_list','class'=>'form-control','single']) !!}
+        </div>
+    @elseif($attribute == 'Iuser_Dtl')
+        <div class={{ $gui_area }}>
+            {!! Form::label('iuser_dtl', 'Requested User: ') !!}
+            {!! Form::select('iuser_dtl', $user_list, null, ['id'=>'user_list','class'=>'form-control','single']) !!}
+        </div>
+    @elseif($attribute == 'Report_Via')
+        <div class={{ $gui_area }}>
+            {!! Form::label('report_via', 'Reported Mediam: ') !!}
+            {!! Form::select('report_via', ['Written'=>'Written', 'Telephone'=>'Telephone'], null , ['id'=>'report_via', 'class'=>'form-control','single']) !!}
+        </div>
+    @elseif($attribute == 'Problem_Dtl')
+        <div class={{ $gui_area }}>
+            {!! Form::label('problem_dtl', 'Problem Detail: ') !!}
+            {!! Form::textarea('problem_dtl',null,['class'=>'form-control', 'rows' => 2, 'cols' => 40]) !!}
+        </div>
+    @elseif($attribute == 'Problem_Status')
+        <div class={{ $gui_area }}>
+            {!! Form::label('problem_status', 'Problem Status: ') !!}
+            {!! Form::select('problem_status', ['Requested'=>'Requested', 'Pending'=>'Pending', 'Solved'=>'Solved', 'Decline'=>'Decline'], null , ['class'=>'form-control','single']) !!}
+        </div>
+  @elseif($attribute == 'Respond_By')
+      <div class={{ $gui_area }}>
+          {!! Form::label('respond_by', 'Responder: ') !!}
+          {!! Form::select('respond_by', $responder_list, null, ['id'=>'responder_list','class'=>'form-control','single']) !!}
+      </div>
+    @elseif($attribute == 'Action_Taken')
+        <div class={{ $gui_area }}>
+            {!! Form::label('action_taken', 'Action Taken: ') !!}
+            {!! Form::textarea('action_taken',null,['class'=>'form-control', 'rows' => 2, 'cols' => 40]) !!}
+        </div>
+  @elseif($attribute == 'Remarks')
+      <div class={{ $gui_area }}>
+          {!! Form::label('remarks', 'Remarks: ') !!}
+          {!! Form::textarea('remarks',null,['class'=>'form-control', 'rows' => 2, 'cols' => 40]) !!}
+      </div>
     @elseif($attribute == 'Unique_Office_Id')
         <div class={{ $gui_area }}>
             {!! Form::label('unique_office_id', 'Office Id: ') !!}
-            {!! Form::text('unique_office_id', old('unique_office_id'), ['id'=>'unique_office_id','class'=>'form-control']) !!}
+            {!! Form::text('unique_office_id', null, ['id'=>'unique_office_id','class'=>'form-control']) !!}
         </div>
     @elseif($attribute == 'Net_Switch_Port')
         <div class={{ $gui_area }}>
@@ -91,10 +131,10 @@
         </div>
     @else
         <div class={{ $gui_area }}>
-            @if(strtolower($attribute) == 'entry_at'||strtolower($attribute) == 'purchase_at')
+            @if(strtolower($attribute) == 'entry_at'||strtolower($attribute) == 'purchase_at'|| strtolower($attribute) == 'requested_at')
                   @if($opcode == 'create')
                       {!! Form::label(strtolower($attribute), $attribute) !!}
-                      {!! Form::text(strtolower($attribute), date('Y-m-d'), ['class'=>'form-control']) !!}
+                      {!! Form::text(strtolower($attribute), date('Y-m-d'), [ 'class'=>'form-control']) !!}
                   @else
                       {!! Form::label(strtolower($attribute), $attribute) !!}
                       {!! Form::text(strtolower($attribute), null, ['class'=>'form-control', $editable]) !!}

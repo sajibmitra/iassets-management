@@ -7,7 +7,7 @@
             </div>
             <div class="panel-heading" align="left" style="background-color: blueviolet">
                 <h3 class="panel-title" style="color: snow"  >
-                    @if($linkTag == 'Iasset' || $linkTag == 'Iuser'|| $linkTag == 'Ivendor' || $linkTag == 'Iworkstation')
+                    @if($linkTag == 'Iasset' || $linkTag == 'Iuser'|| $linkTag == 'Ivendor' || $linkTag == 'Iworkstation' || $linkTag = 'Iresponse')
                         <a href="{{url( strtolower($linkTag.'s/create'))}}"> {{$linkTag.' (Create New)'}}</a>
                     @endif
                         <p id= "demo" align="left"> <?php echo 'Number of Items: '. count($objects) ?></p>
@@ -51,6 +51,16 @@
                             <th><input type="text" style="text-align: center" class="form-control" placeholder='Contact No' disabled></th>
                         @elseif($attribute == 'Purchase_At')
                             <th><input type="text" style="text-align: center" class="form-control" placeholder='Purchase At' disabled></th>
+                        @elseif($attribute == 'Iuser_Dtl')
+                            <th><input type="text" style="text-align: center" class="form-control" placeholder='User' disabled></th>
+                        @elseif($attribute == 'Report_Via')
+                            <th><input type="text" style="text-align: center" class="form-control" placeholder='Type' disabled></th>
+                        @elseif($attribute == 'Requested_At')
+                            <th><input type="text" style="text-align: center" class="form-control" placeholder='Report On' disabled></th>
+                        @elseif($attribute == 'Problem_Status')
+                            <th><input type="text" style="text-align: center" class="form-control" placeholder='Status' disabled></th>
+                        @elseif($attribute == 'Respond_By')
+                            <th><input type="text" style="text-align: center" class="form-control" placeholder='Responder' disabled></th>
                         @else
                             <th><input type="text" style="text-align: center" class="form-control" placeholder={{$attribute}} disabled></th>
                         @endif
@@ -64,7 +74,11 @@
                             @foreach($attributes as $key=>$attribute)
                                 <td align="center" >
                                     @if($key == 0)
+                                      @if($linkTag == 'Iresponse')
+                                        <a href="{{ url(strtolower($linkTag.'s/'.$object->id))}}"> {{'CASE-'.object_get($object, strtolower($attribute), null)}} </a>
+                                      @else
                                         <a href="{{ url(strtolower($linkTag.'s/'.$object->id))}}"> {{object_get($object, strtolower($attribute), null)}} </a>
+                                      @endif
                                     @else
                                         @if($attribute == 'Brand' )
                                             {{$asset_brand[object_get($object, strtolower($attribute), null)]}}
@@ -76,8 +90,14 @@
                                             {{$types[object_get($object, strtolower($attribute), null)]}}
                                         @elseif($attribute == 'Iuser_Id' )
                                             <?php $id = object_get($object, strtolower($attribute), null) ?>
-
                                                 <a href="{{ url('iusers/'.$id)}}"> {{str_limit($user_list[$id],10,'...')}} </a>
+                                        @elseif($attribute == 'Iuser_Dtl' )
+                                            <?php $id = object_get($object, strtolower($attribute), null) ?>
+                                                <a href="{{ url('iusers/'.$id)}}"> {{str_limit($user_list[$id],20,'...')}} </a>
+                                        @elseif($attribute == 'Respond_By' )
+                                            <?php $id = object_get($object, strtolower($attribute), null) ?>
+                                                 {{str_limit($responder_list[$id],20,'...')}}
+
                                         @elseif($attribute == 'Ivendor_Id' )
                                             <?php $id = object_get($object, strtolower($attribute), null) ?>
                                             <a href="{{ url('ivendors/'.$id)}}">  {{ str_limit($vendor_list[$id],5,'...')}} </a>
@@ -94,7 +114,7 @@
                                         @elseif($attribute == 'Net_Switch_Id')
                                             <?php $id = object_get($object, strtolower($attribute), null) ?>
                                             {{$net_switch_list[$id]}}
-                                        @elseif($attribute == 'Purchase_At')
+                                        @elseif($attribute == 'Purchase_At' || $attribute == '_At'|| $attribute == 'Requested_At')
                                             {{Carbon\Carbon::parse(object_get($object, strtolower($attribute), null))->format('d.m.Y')}}
                                         @elseif($attribute == 'Serial_Id')
                                             {{object_get($object, strtolower($attribute), null)}}

@@ -47,7 +47,5 @@
                         .attr("value", value).text(key));
             });
         });
-        $('#designations').select2();
-
     </script>
 @endsection

@@ -171,8 +171,9 @@ class IassetsController extends Controller
     public function store(CreateIassetRequest $request){
 
         $request['iasset_id']= $this->getIassetId($request);
-        $request['unique_office_id']=$this->asset_type[array_keys($this->asset_type)[$request->get('type')]].'-'.$request->get('unique_office_id');
-        $this->validate($request, [
+        $prequest = $request;
+        $prequest['unique_office_id']=$this->asset_type[array_keys($this->asset_type)[$request->get('type')]].'-'.$request->get('unique_office_id');
+        $this->validate($prequest, [
             'unique_office_id' => 'required|unique:iassets',
             'serial_id' => 'required|unique:iassets',
         ]);

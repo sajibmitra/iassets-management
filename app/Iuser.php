@@ -34,4 +34,7 @@ class Iuser extends Authenticatable
     public function iworkstations(){
         return $this->belongsToMany('App\Iworkstation')->withTimestamps();
     }
+    public function iresponses(){
+        return $this->belongsToMany('App\Iresponse');
+    }
 }
