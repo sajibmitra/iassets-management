@@ -26,12 +26,13 @@ class CreateIworkstationRequest extends FormRequest
         return [
             'net_switch_id' => 'required',
             'net_switch_port' => 'required',
-            'net_dhcp_ip'=> 'required|min:7|max:15',
-            'net_mac_id' => 'required|size:17',
+            //'net_dhcp_ip'=> 'required|min:7|max:15',
+            //'net_mac_id' => 'required|size:17',
             'net_login_status' => 'required',
-            'net_faceplate_id' => 'required|size:7',
+            'net_faceplate_id' => 'required|size:5',
             'os_detail_info' => 'required',
-            'sys_product_id' => 'required',
+            'os_product_key' => 'required',
+            'os_host_id' => 'required',
             'iuser_id' => 'required',
         ];
     }

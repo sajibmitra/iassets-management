@@ -8,7 +8,8 @@
 @endsection
 @section('footer')
     <script>
-    $('#user_list').select2();
+    $('#problem_list').select2();
+    $('#action_list').select2()
     $('#asset_list').select2();
     $('#report_via').select2();
     $('#request_dtl').select2();

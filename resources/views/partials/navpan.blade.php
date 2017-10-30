@@ -8,7 +8,7 @@
                     <li role="presentation"><a href="#update" aria-controls="update" role="tab" data-toggle="tab">Edit</a></li>
                     @if($linkTag == 'Iasset')
                             <li role="presentation"><a href="#history" aria-controls="history" role="tab" data-toggle="tab">History</a></li>
-                        @elseif($linkTag == 'Iuser' || $linkTag == 'Ivendor')
+                    @elseif($linkTag == 'Iuser' || $linkTag == 'Ivendor')
                             <li role="presentation"><a href="#history" aria-controls="history" role="tab" data-toggle="tab"> Assets Detail</a></li>
                     @elseif($linkTag == 'Iworkstation')
                         <li role="presentation"><a href="#userHistory" aria-controls="userHistory" role="tab" data-toggle="tab">History of Users</a></li>

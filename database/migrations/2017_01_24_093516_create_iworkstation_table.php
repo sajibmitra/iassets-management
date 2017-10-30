@@ -18,12 +18,13 @@ class CreateIworkstationTable extends Migration
             $table->string('net_switch_id');
             $table->string('net_switch_port')->unique();
             $table->string('net_dhcp_ip')->nullable();
-            $table->string('net_mac_id');
+            $table->string('net_mac_id')->unique();;
             $table->string('net_login_status');
-            $table->string('os_detail_info');
             $table->string('net_faceplate_id')->unique();
+            $table->string('os_detail_info');
+            $table->string('os_product_key')->unique();;
+            $table->string('os_host_id')->unique();;
             $table->string('lnk_printer_id')->nullable();
-            $table->string('sys_product_id');
             $table->integer('iuser_id')->unsigned();
             $table->timestamps();
 
@@ -48,7 +49,7 @@ class CreateIworkstationTable extends Migration
         Schema::create('iasset_iworkstation', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('iworkstation_id')->unsigned();
-            $table->integer('iasset_id')->default(0)->unsigned();
+            $table->integer('iasset_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('iworkstation_id')

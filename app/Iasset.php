@@ -52,8 +52,8 @@ class Iasset extends Model
         return $this->belongsTo('App\Ivendor');
     }
 
-    public function iworkstations(){
-        return $this->belongsToMany('App\Iworkstation')->withTimestamps()->orderBy('pivot_updated_at');
+    public function iworkstation(){
+        return $this->belongsTo('App\Iworkstation');
     }
 
     public function iresponses(){

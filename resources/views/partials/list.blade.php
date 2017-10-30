@@ -51,8 +51,8 @@
                             <th><input type="text" style="text-align: center" class="form-control" placeholder='Contact No' disabled></th>
                         @elseif($attribute == 'Purchase_At')
                             <th><input type="text" style="text-align: center" class="form-control" placeholder='Purchase At' disabled></th>
-                        @elseif($attribute == 'Iuser_Dtl')
-                            <th><input type="text" style="text-align: center" class="form-control" placeholder='User' disabled></th>
+                        @elseif($attribute == 'Iasset_Dtl')
+                            <th><input type="text" style="text-align: center" class="form-control" placeholder='User Name [Asset-ID]' disabled></th>
                         @elseif($attribute == 'Report_Via')
                             <th><input type="text" style="text-align: center" class="form-control" placeholder='Type' disabled></th>
                         @elseif($attribute == 'Requested_At')
@@ -91,9 +91,9 @@
                                         @elseif($attribute == 'Iuser_Id' )
                                             <?php $id = object_get($object, strtolower($attribute), null) ?>
                                                 <a href="{{ url('iusers/'.$id)}}"> {{str_limit($user_list[$id],10,'...')}} </a>
-                                        @elseif($attribute == 'Iuser_Dtl' )
+                                        @elseif($attribute == 'Iasset_Dtl' )
                                             <?php $id = object_get($object, strtolower($attribute), null) ?>
-                                                <a href="{{ url('iusers/'.$id)}}"> {{str_limit($user_list[$id],20,'...')}} </a>
+                                                <a href="{{ url('iassets/'.$id)}}"> {{$asset_list[$id]}} </a>
                                         @elseif($attribute == 'Respond_By' )
                                             <?php $id = object_get($object, strtolower($attribute), null) ?>
                                                  {{str_limit($responder_list[$id],20,'...')}}

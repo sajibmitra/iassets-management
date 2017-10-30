@@ -15,8 +15,8 @@ class Iresponse extends Model
       'iuser_dtl', 'iasset_dtl', 'report_via', 'problem_dtl', 'requested_at', 'finished_at', 'problem_status', 'respond_by', 'action_taken', 'remarks'
   ];
 
-  public function iassets(){
-      return $this->belongsToMany('App\Iasset');
+  public function iasset(){
+      return $this->belongsTo('App\Iasset');
   }
 
   public function iuser(){

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Iworkstation extends Model
 {
     protected $fillable =[
-        'iworkstation_id', 'net_switch_id', 'net_switch_port', 'net_dhcp_ip', 'net_mac_id', 'net_login_status', 'net_faceplate_id', 'os_detail_info', 'lnk_printer_id', 'sys_product_id', 'iuser_id'
+        'iworkstation_id', 'net_switch_id', 'net_switch_port', 'net_dhcp_ip', 'net_mac_id', 'net_login_status', 'net_faceplate_id', 'os_detail_info', 'lnk_printer_id', 'os_product_key', 'os_host_id', 'iuser_id'
     ];
 
     /** Single Workstation used by multiple iusers

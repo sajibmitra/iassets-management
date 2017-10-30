@@ -43,27 +43,21 @@ class IworkstationsController extends Controller
         foreach ($allUsers as $user) {
             $user_list[$user['id']]=$user['name'];
         }
-        $attributes = [ 'Iworkstation_Id', 'Net_Switch_Id', 'Net_Login_Status', 'OS_Detail_Info', 'Lnk_Printer_Id', 'Iuser_Id'];
+        $attributes = [ 'Iworkstation_Id', 'Net_Switch_Id', 'Net_Login_Status', 'OS_Detail_Info', 'Lnk_Printer_Id', 'OS_Host_Id','Iuser_Id'];
         return view('iworkstations.index', compact('objects', 'attributes', 'user_list','os_info_list','net_switch_list','lnk_printer_list'));
     }
     public function show($id){
         $object= Iworkstation::findOrFail($id);
         $users = $object->iusers;
-        $assets = $object->iassets;
-        $lnkAssets = Iasset::all('id','unique_office_id','iuser_id')->where('iuser_id',$object['iuser_id']);
+        $assets = $object->iassets->toArray();
         $lnk_assets=[];
-        foreach ($lnkAssets as $asset){
+        foreach ($assets as $asset){
                 $lnk_assets[$asset['id']]=$asset['unique_office_id'];
         }
         $os_info_list= $this->os_info_list;
         $net_switch_list= array_keys($this->net_switch_list);
-        $allAssets = Iasset::all('id','unique_office_id')->toArray();
-        $asset_list =[];
-        foreach ($allAssets as $asset){
-            $asset_list[$asset['id']]=$asset['unique_office_id'];
-        }
-        $allUsers= Iuser::all('id','name')->toArray();
-        array_shift($allUsers);
+      //  $allUsers= Iuser::all('id','name')->toArray();
+      //  array_shift($allUsers);
         $user_list = [];
         foreach ($allUsers as $user) {
             $user_list[$user['id']]=$user['name'];
@@ -73,17 +67,11 @@ class IworkstationsController extends Controller
         foreach ($lnk_printers as $printer){
             $lnk_printer_list[$printer['id']]=$printer['unique_office_id'];
         }
-        $attributes = [ 'Net_Switch_Id', 'Net_Switch_Port', 'Net_DHCP_Ip', 'Net_MAC_Id', 'Net_Login_Status', 'Net_Faceplate_Id', 'OS_Detail_Info', 'Lnk_Printer_Id', 'Sys_Product_Id', 'Iuser_Id','Asset_List'];
+        $attributes = [ 'Net_Switch_Id', 'Net_Switch_Port', 'Net_DHCP_Ip', 'Net_MAC_Id', 'Net_Login_Status', 'Net_Faceplate_Id', 'OS_Detail_Info', 'Lnk_Printer_Id', 'OS_Product_Key', 'OS_Host_Id', 'Iuser_Id', 'Asset_List'];
         return view('iworkstations.show', compact('object', 'attributes','users','lnk_assets', 'user_list','os_info_list', 'net_switch_list','lnk_printer_list','asset_list','assets'));
     }
     public function create(){
-        $allAssets = Iasset::all('id','unique_office_id','status')->toArray();
-        $asset_list = [];
-        foreach ($allAssets as $asset){
-            $asset_list[$asset['id']]=$asset['unique_office_id'];
-        }
         $allUsers= Iuser::all('id','name')->toArray();
-        array_shift($allUsers);
         $user_list= [];
         foreach ($allUsers as $user) {
             $user_list[$user['id']]=$user['name'];
@@ -95,11 +83,12 @@ class IworkstationsController extends Controller
         foreach ($lnk_printers as $printer){
             $lnk_printer_list[$printer['id']]= $printer['unique_office_id'];
         }
-        $attributes = [ 'Iuser_Id','Net_Switch_Id', 'Net_Switch_Port', 'Net_DHCP_Ip', 'Net_MAC_Id', 'Net_Login_Status', 'Net_Faceplate_Id', 'OS_Detail_Info', 'Lnk_Printer_Id', 'Sys_Product_Id', 'Asset_List'];
-        return view('iworkstations.create', compact('attributes','user_list','os_info_list','net_switch_list','lnk_printer_list','asset_list'));
+        $attributes = [ 'Iuser_Id','Net_Switch_Id', 'Net_Switch_Port', 'Net_DHCP_Ip', 'Net_MAC_Id', 'Net_Login_Status', 'Net_Faceplate_Id', 'OS_Detail_Info', 'Lnk_Printer_Id', 'OS_Product_Key', 'OS_Host_Id'];
+        return view('iworkstations.create', compact('attributes','user_list','os_info_list','net_switch_list','lnk_printer_list'));
     }
     public function store(CreateIworkstationRequest $request){
         $request['iworkstation_id']= $this->getIworkstationId($request);
+
         $this->validate($request, [
             'net_switch_port' => 'required|unique:iworkstations',
             'iuser_id' => 'required|unique:iworkstations',
@@ -110,17 +99,14 @@ class IworkstationsController extends Controller
         $workstation->save();
         $currentUser = $workstation->iuser_id;
         $workstation->iusers()->attach($currentUser);
-        if ($request['asset_list'] != null) {
-            foreach ($request['asset_list'] as $iasset_id) {
-                $workstation->iassets()->attach($iasset_id);
-                $asset= Iasset::findOrFail($iasset_id);
-                $asset->update(['iuser_id'=>$currentUser]);
-                $asset->iusers()->attach($currentUser);
-            }
+        $user = Iuser::findOrFail($currentUser);
+        $assets= $user->iassets->toArray();
+
+        foreach ($assets as $asset) {
+          if($currentUser == $asset['iuser_id'])
+            $workstation->iassets()->attach($asset['id']);
         }
-        else{
-            //write some code here... for empty workstation
-        }
+
         return redirect('iworkstations');
     }
     public function update($id, CreateIworkstationRequest $request){
@@ -165,9 +151,7 @@ class IworkstationsController extends Controller
      * @param Request $request
      */
     public function getIworkstationId(CreateIworkstationRequest  $request){
-        $net_switch_id = $request->get('net_switch_id');
         $net_faceplate_id = $request->get('net_faceplate_id');
-        $net_switch_port= $request->get('net_switch_port');
-        return 'BWS'.$net_switch_port;
+        return 'MA'.$net_faceplate_id;
     }
 }

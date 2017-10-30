@@ -17,65 +17,87 @@ class IresponsesController extends Controller
     }
     public function  index () {
         $objects= Iresponse::all();
-        $attributes = [ 'id','Iuser_Dtl', 'Report_Via', 'Requested_At', 'Problem_Status', 'Respond_By'];
+        $attributes = [ 'ID','Iasset_Dtl', 'Report_Via', 'Requested_At', 'Problem_Status', 'Respond_By'];
+        $problem_list = array_column(Iresponse::distinct()->get(['problem_dtl'])->toArray(), 'problem_dtl');
+        $action_list = array_column(Iresponse::distinct()->get(['action_taken'])->toArray(), 'action_taken');
         $allUsers= Iuser::all('id','name')->toArray();
         $user_list = [];
         foreach ($allUsers as $user){
             $user_list[$user['id']]=$user['name'];
+        }
+        $allAssets = Iasset::all('id','unique_office_id', 'iuser_id')->toArray();
+        $asset_list = [];
+        foreach ($allAssets as $asset){
+            $asset_list[$asset['id']]= $user_list[$asset['iuser_id']].'['.$asset['unique_office_id'].']' ;
         }
         $allResponders= User::all('id','name')->toArray();
         $responder_list = [];
         foreach ($allResponders as $responder){
             $responder_list[$responder['id']]=$responder['name'];
         }
-        return view('iresponses.index', compact('objects', 'attributes', 'user_list', 'responder_list'));
+        return view('iresponses.index', compact('objects', 'attributes', 'asset_list', 'responder_list','problem_list','action_list'));
     }
     public function show($id){
         $object= Iresponse::findOrFail($id);
-        $allAssets = Iasset::all('id','unique_office_id','status')->toArray();
-        $asset_list = [];
-        foreach ($allAssets as $asset){
-            $asset_list[$asset['id']]=$asset['unique_office_id'];
-        }
-        $users = $object->iusers;
+        $problem_list = array_column(Iresponse::distinct()->get(['problem_dtl'])->toArray(), 'problem_dtl');
+        $action_list = array_column(Iresponse::distinct()->get(['action_taken'])->toArray(), 'action_taken');
         $allUsers= Iuser::all('id','name')->toArray();
         $user_list = [];
         foreach ($allUsers as $user){
             $user_list[$user['id']]=$user['name'];
+        }
+        $allAssets = Iasset::all('id','unique_office_id', 'iuser_id')->toArray();
+        $asset_list = [];
+        foreach ($allAssets as $asset){
+            $asset_list[$asset['id']]= $user_list[$asset['iuser_id']].'['.$asset['unique_office_id'].']' ;
         }
         $allResponders= User::all('id','name')->toArray();
         $responder_list = [];
         foreach ($allResponders as $responder){
             $responder_list[$responder['id']]=$responder['name'];
         }
-        $attributes = [ 'Iuser_Dtl', 'Iasset_Dtl', 'Report_Via', 'Problem_Dtl', 'Requested_At', 'Finished_At', 'Problem_Status', 'Respond_By', 'Action_Taken', 'Remarks'];
-        return view('iresponses.show',compact('object', 'attributes','users', 'user_list','responder_list','asset_list'));
+        $attributes = [ 'Iasset_Dtl', 'Report_Via', 'Problem_Dtl', 'Requested_At', 'Finished_At', 'Problem_Status', 'Respond_By', 'Action_Taken', 'Remarks'];
+        return view('iresponses.show',compact('object', 'attributes','responder_list','asset_list','problem_list','action_list'));
     }
     public function create(){
-        $allAssets = Iasset::all('id','unique_office_id','status')->toArray();
-        $asset_list = [];
-        foreach ($allAssets as $asset){
-            $asset_list[$asset['id']]=$asset['unique_office_id'];
-        }
-        $attributes = [ 'Iuser_Dtl', 'Iasset_Dtl', 'Report_Via', 'Problem_Dtl', 'Requested_At', 'Finished_At', 'Problem_Status', 'Respond_By', 'Action_Taken', 'Remarks'];
+        $problem_list = array_column(Iresponse::distinct()->get(['problem_dtl'])->toArray(), 'problem_dtl');
+        $action_list = array_column(Iresponse::distinct()->get(['action_taken'])->toArray(), 'action_taken');
         $allUsers= Iuser::all('id','name')->toArray();
         $user_list = [];
         foreach ($allUsers as $user){
             $user_list[$user['id']]=$user['name'];
         }
+        $allAssets = Iasset::all('id','unique_office_id', 'iuser_id')->toArray();
+        $asset_list = [];
+        foreach ($allAssets as $asset){
+            $asset_list[$asset['id']]= $user_list[$asset['iuser_id']].'['.$asset['unique_office_id'].']' ;
+        }
+        $attributes = ['Iasset_Dtl', 'Report_Via', 'Problem_Dtl', 'Requested_At', 'Finished_At', 'Problem_Status', 'Respond_By', 'Action_Taken', 'Remarks'];
         $allResponders= User::all('id','name')->toArray();
         $responder_list = [];
         foreach ($allResponders as $responder){
             $responder_list[$responder['id']]=$responder['name'];
         }
-        return view('iresponses.create', compact('attributes','user_list', 'asset_list','responder_list'));
+        return view('iresponses.create', compact('attributes', 'asset_list','responder_list', 'problem_list','action_list'));
     }
     public function store(CreateIresponseRequest $request){
+        $problem_list = array_column(Iresponse::distinct()->get(['problem_dtl'])->toArray(), 'problem_dtl');
+        $action_list = array_column(Iresponse::distinct()->get(['action_taken'])->toArray(), 'action_taken');
+        $request['problem_dtl'] = $problem_list[$request['problem_dtl']];
+        $request['action_taken'] = $action_list[$request['action_taken']];
+        $asset = Iasset::findOrFail($request['iasset_dtl']);
+        $request['iuser_dtl'] = $asset['iuser_id'];
         $response = new Iresponse($request->all());
         $response->save();
         return redirect('iresponses');
     }
    public function update($id, CreateIresponseRequest $request){
+       $problem_list = array_column(Iresponse::distinct()->get(['problem_dtl'])->toArray(), 'problem_dtl');
+       $action_list = array_column(Iresponse::distinct()->get(['action_taken'])->toArray(), 'action_taken');
+       $request['problem_dtl'] = $problem_list[$request['problem_dtl']];
+       $request['action_taken'] = $action_list[$request['action_taken']];
+       $asset = Iasset::findOrFail($request['iasset_dtl']);
+       $request['iuser_dtl'] = $asset['iuser_id'];
        $response = Iresponse::findOrFail($id);
        $response->update($request->all());
        return redirect('iresponses');

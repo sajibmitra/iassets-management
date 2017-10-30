@@ -15,8 +15,8 @@ class CreateIresponsesTable extends Migration
     {
         Schema::create('iresponses', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('iuser_dtl')->unsigned();
             $table->integer('iasset_dtl')->unsigned();
+            $table->integer('iuser_dtl')->unsigned();
             $table->string('report_via');
             $table->string('problem_dtl');
             $table->timestamp('requested_at')->nullable();
@@ -27,8 +27,8 @@ class CreateIresponsesTable extends Migration
             $table->string('remarks');
 
             $table->timestamps();
-            $table->foreign('iuser_dtl')->references('id')->on('iusers')->onDelete('cascade');
             $table->foreign('iasset_dtl')->references('id')->on('iassets')->onDelete('cascade');
+            $table->foreign('iuser_dtl')->references('id')->on('iusers')->onDelete('cascade');
         });
     }
 
