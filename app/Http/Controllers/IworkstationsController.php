@@ -56,8 +56,8 @@ class IworkstationsController extends Controller
         }
         $os_info_list= $this->os_info_list;
         $net_switch_list= array_keys($this->net_switch_list);
-      //  $allUsers= Iuser::all('id','name')->toArray();
-      //  array_shift($allUsers);
+        $allUsers= Iuser::all('id','name')->toArray();
+        array_shift($allUsers);
         $user_list = [];
         foreach ($allUsers as $user) {
             $user_list[$user['id']]=$user['name'];

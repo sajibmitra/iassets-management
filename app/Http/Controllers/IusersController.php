@@ -57,7 +57,7 @@ class IusersController extends Controller
         $this->middleware('auth');
     }
     public function index(){
-        $objects= Iuser::all();
+        $objects= Iuser::orderBy('name')->get();
         $designations= $this->designations;
         $departments= array_keys($this->secDeptMapping);
         $roles = $this->roles;
@@ -65,20 +65,20 @@ class IusersController extends Controller
         return view('iusers.index', compact('objects', 'attributes','designations','roles','departments'));
     }
     public function create(){
-        $attributes = [ 'Name', 'Department', 'Section', 'Designation', 'Contact_No', 'Email', 'Role'];
         $secDeptMapping=$this->secDeptMapping;
         $designations= $this->designations;
         $roles = $this->roles;
+        $attributes = [ 'Name', 'Department', 'Section', 'Designation', 'Contact_No', 'Email', 'Role'];
         return view('iusers.create', compact('object', 'attributes', 'designations','roles','iassets', 'secDeptMapping'));
     }
     public function show($id){
         $object= Iuser::findOrFail($id);
         $iassets= $object->iassets;
         $departments= array_keys($this->secDeptMapping);
-        $attributes = [ 'Name', 'Department', 'Section', 'Designation', 'Contact_No', 'Email', 'Role'];
         $secDeptMapping=$this->secDeptMapping;
         $designations= $this->designations;
         $roles = $this->roles;
+        $attributes = [ 'Name', 'Department', 'Section', 'Designation', 'Contact_No', 'Email', 'Role'];
         return view('iusers.show', compact('object', 'attributes', 'designations','roles','iassets','secDeptMapping','departments'));
     }
     public function store(CreateIuserRequest $request){
