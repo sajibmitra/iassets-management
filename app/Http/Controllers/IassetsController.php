@@ -116,7 +116,7 @@ class IassetsController extends Controller
     }
     public function  index () {
         $objects= Iasset::latest('updated_at')->get();
-        $attributes = [ 'Unique_Office_Id', 'Type', 'Brand', 'Model', 'Serial_Id', 'Product_ID', 'Purchase_At', 'Status', 'Iuser_Id','Ivendor_Id'];
+        $attributes = [ 'Unique_Office_Id', 'Type', 'Brand', 'Model', 'Serial_Id', 'Purchase_At', 'Status', 'Iuser_Id','Ivendor_Id'];
         $allUsers= Iuser::all('id','name')->toArray();
         $user_list = [];
         foreach ($allUsers as $user){
