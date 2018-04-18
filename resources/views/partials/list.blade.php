@@ -81,23 +81,22 @@
                                       @endif
                                     @else
                                         @if($attribute == 'Brand' )
-                                            {{$asset_brand[object_get($object, strtolower($attribute), null)]}}
+                                            {{object_get($object, strtolower($attribute), null)}}
                                         @elseif($attribute == 'Department' )
-                                            {{$departments[object_get($object, strtolower($attribute), null)]}}
+                                            {{object_get($object, strtolower($attribute), null)}}
                                         @elseif($attribute == 'Designation' )
-                                            {{$designations[object_get($object, strtolower($attribute), null)]}}
+                                            {{object_get($object, strtolower($attribute), null)}}
                                         @elseif($attribute == 'Type' )
-                                            {{$types[object_get($object, strtolower($attribute), null)]}}
+                                            {{object_get($object, strtolower($attribute), null)}}
                                         @elseif($attribute == 'Iuser_Id' )
                                             <?php $id = object_get($object, strtolower($attribute), null) ?>
-                                                <a href="{{ url('iusers/'.$id)}}"> {{str_limit($user_list[$id],10,'...')}} </a>
+                                                <a href="{{ url('iusers/'.$id)}}"> {{$user_list[$id]}} </a>
                                         @elseif($attribute == 'Iasset_Dtl' )
                                             <?php $id = object_get($object, strtolower($attribute), null) ?>
                                                 <a href="{{ url('iassets/'.$id)}}"> {{$asset_list[$id]}} </a>
                                         @elseif($attribute == 'Respond_By' )
                                             <?php $id = object_get($object, strtolower($attribute), null) ?>
                                                  {{str_limit($responder_list[$id],20,'...')}}
-
                                         @elseif($attribute == 'Ivendor_Id' )
                                             <?php $id = object_get($object, strtolower($attribute), null) ?>
                                             <a href="{{ url('ivendors/'.$id)}}">  {{ str_limit($vendor_list[$id],5,'...')}} </a>

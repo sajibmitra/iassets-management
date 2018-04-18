@@ -7,12 +7,12 @@
     @if($attribute == 'Type')
         <div class={{ $gui_area }}>
             {!! Form::label('type', 'Type: ') !!}
-            {!! Form::select('type', $types , null, ['id'=>'types','class'=>'form-control','single', $editable]) !!}
+            {!! Form::select('type', $types, null, ['id'=>'types','class'=>'form-control','single', $editable]) !!}
         </div>
     @elseif($attribute == 'Brand')
         <div class={{ $gui_area }}>
             {!! Form::label('brand', 'Brand: ') !!}
-            {!! Form::select('brand', $asset_brand, null, ['id'=>'asset_brand','class'=>'form-control','single', $editable]) !!}
+            {!! Form::select('brand', $asset_brand, null, ['id'=>'asset_brand','class'=>'form-control','single']) !!}
         </div>
     @elseif($attribute == 'Section')
         <div class={{ $gui_area }}>
@@ -132,7 +132,7 @@
                       {!! Form::text(strtolower($attribute), date('Y-m-d'), [ 'class'=>'form-control']) !!}
                   @else
                       {!! Form::label(strtolower($attribute), $attribute) !!}
-                      {!! Form::text(strtolower($attribute), null, ['class'=>'form-control', $editable]) !!}
+                      {!! Form::text(strtolower($attribute), null, ['class'=>'form-control']) !!}
                   @endif
             @else
                     {!! Form::label(strtolower($attribute), $attribute) !!}

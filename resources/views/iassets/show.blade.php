@@ -9,6 +9,7 @@
 @section('footer')
     <script>
         $('#types').select2();
+        $('#iuser_id').select2();
         $('#asset_brand').select2();
         $('#sections').select2();
         $('#asset_status').select2();

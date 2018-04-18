@@ -13,6 +13,7 @@
                 "Option 2": "value2",
                 "Option 3": "value3"
             };
+            document.write(id);
             switch(id){
                 case '0':
                     newOptions = <?php echo json_encode($secDeptMapping['Establishment'], JSON_FORCE_OBJECT) ?>;
@@ -47,5 +48,6 @@
                         .attr("value", value).text(key));
             });
         });
+        $('#designations').select2();
     </script>
 @endsection

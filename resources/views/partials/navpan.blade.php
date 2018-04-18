@@ -21,6 +21,7 @@
                 @if($linkTag == 'Iasset')
                    <h6 style="color: #0000cc;" align="center"> {{ 'Asset ID: '.$object->iasset_id }}</h6>
                     <h6 style="color: #f20d0d" align="center"> {{ 'Office ID: '.$object->unique_office_id}}</h6>
+                    <h6 style="color: #f20d0d" align="center"> {{ 'Type: '.$object->type}}</h6>
                 @elseif($linkTag == 'Iworkstation')
                     <h6 style="color: #f20d0d;" align="center"> {{ 'Workstation ID: '.$object->iworkstation_id }}</h6>
                 @elseif($linkTag == 'Iuser')

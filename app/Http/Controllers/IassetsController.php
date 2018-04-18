@@ -10,50 +10,57 @@ class IassetsController extends Controller
 {
     //Add your attribute into following table carefully[at the bottom of any array...]
     protected $asset_type = [
-        'CPU'   => 'BC',
-        'Monitor' => 'BM',
-        'UPS'   => 'BU',
-        'Printer'=> 'BP',
-        'Scanner' => 'BS',
-        'Switch'   => 'BW',
-        'Projector' => 'BJ',
-        'Router'    => 'BR',
-        'Laptop'    => 'BL',
-        'iPad'  => 'BI'
+        'CPU'   => 'BC',   //0
+        'Monitor' => 'BM', //1
+        'UPS'   => 'BU',  //2
+        'Printer'=> 'BP',  //3
+        'Scanner' => 'BS',  //4
+        'Switch'   => 'BW',  //5
+        'Projector' => 'BJ',  //6
+        'Router'    => 'BR',  //7
+        'Laptop'    => 'BL',  //8
+        'iPad'  => 'BI',  //9
+        'IPPABX' => 'BX' //10
     ];
     protected $asset_brand   =[
-        'Apple' => 'APPLE',
-        'HP' => 'HP___',
-        'Dell'   => 'DELL_',
-        'Lenovo'   => 'LENVO',
-        'Asus' => 'ASUS_',
-        'Acer' => 'ACER_',
-        'Epson' => 'EPSON',
-        'Samsung' => 'SAMSG',
-        'LG'    => 'LG___',
-        'Toshiba' => 'TSIBA',
-        'SONY'  => 'SONY_',
-        'Prolink' => 'PLINK',
-        'Power Pack'=> 'PPACK',
-        'PC Power' => 'PCPOW',
-        'Power Guard'=> 'POWGD',
-        'IOE LEUMS' => 'LEUMS',
-        'FLORA UPS' => 'FLORA',
-        'CLONE' => 'CLONE',
-        'Power Box'=> 'PBOX_',
-        'Canon' => 'CANON',
-        'APC' => 'APC__',
-        'Konica' => 'KONIC',
-        'PowerP5Sonic' => 'PP5SO',
-        'NOVA' => 'NOVA_',
-        'L-TECH' => 'LTECH',
-        'iNeat Ups'=> 'INEAT',
-        'Signal Digital Electronics' => 'SDELEC',
-        'dbm' => 'DBM__',
-        'Index' => 'INDEX',
-        'Other' => 'OTHER'
+        'Apple' => 'APPLE',   //0
+        'HP' => 'HP___',      //1
+        'Dell'   => 'DELL_',  //2
+        'Lenovo'   => 'LENVO',//3
+        'Asus' => 'ASUS_',    //4
+        'Acer' => 'ACER_',    //5
+        'Epson' => 'EPSON',   //6
+        'Samsung' => 'SAMSG', //7
+        'LG'    => 'LG___',   //8
+        'Toshiba' => 'TSIBA', //9
+        'SONY'  => 'SONY_',   //10
+        'Prolink' => 'PLINK', //11
+        'Power Pack'=> 'PPACK',//12
+        'PC Power' => 'PCPOW', //13
+        'Power Guard'=> 'POWGD',//14
+        'IOE LEUMS' => 'LEUMS',//15
+        'FLORA UPS' => 'FLORA',//16
+        'CLONE' => 'CLONE',     //17
+        'Power Box'=> 'PBOX_',  //18
+        'Canon' => 'CANON',     //19
+        'APC' => 'APC__',       //20
+        'Konica' => 'KONIC',    //21
+        'PowerP5Sonic' => 'PP5SO',//22
+        'NOVA' => 'NOVA_',        //23
+        'L-TECH' => 'LTECH',      //24
+        'iNeat Ups'=> 'INEAT',    //25
+        'Signal Digital Electronics' => 'SDELEC',//26
+        'dbm' => 'DBM__', //27
+        'Index' => 'INDEX',//28
+        'Other' => 'OTHER', //29
+        'Micro' => 'MICRO', //30
+        'Broken' => 'BROKE',//31
+        'New Tech' =>'NTECH',//32
+        'Giga' => 'GIGA_',    //33
+        'General' => 'GENRL',  //34
+        'NEC' => 'NEC__'    //35
     ];
-    protected $brandModelMapping =[
+    /*protected $brandModelMapping =[
         'HP'=> ['Compaq dx7400 MT', 'Compaq dx7300 MT', 'Pro 2000 MT', 'Prodesk 600 G1 SFF', 'Prodesk 600 G2 SFF', 'V194', 'LV1191','L1710Sc'],
         'Dell' => ['Vostro 460', 'Optiplex 390', 'Optiplex 3020', 'Optiplex 3040','E190Hf'],
         'Sumsang' => ['S19B150B'],
@@ -65,7 +72,7 @@ class IassetsController extends Controller
         'IOE LEUMS' =>['1000c'],
         'FLORA UPS' =>[],
         'Power Box' =>[],
-    ];
+    ];*/
 
     protected $asset_status   =[
         'GOOD'   => 'GOOD',
@@ -116,7 +123,7 @@ class IassetsController extends Controller
     }
     public function  index () {
         $objects= Iasset::latest('updated_at')->get();
-        $attributes = [ 'Unique_Office_Id', 'Type', 'Brand', 'Model', 'Serial_Id', 'Purchase_At', 'Status', 'Iuser_Id','Ivendor_Id'];
+        $attributes = [ 'Unique_Office_Id', 'Type', 'Brand', 'Model', 'Serial_Id', 'Purchase_At', 'Status', 'Iuser_Id'];
         $allUsers= Iuser::all('id','name')->toArray();
         $user_list = [];
         foreach ($allUsers as $user){
@@ -127,10 +134,10 @@ class IassetsController extends Controller
         foreach ($vendors as $vendor){
             $vendor_list[$vendor['id']]=$vendor['name'];
         }
-        $types = array_keys($this->asset_type);
-        $asset_status=$this->asset_status;
-        $asset_brand=array_keys($this->asset_brand);
-        return view('iassets.index', compact('objects', 'attributes', 'types','asset_status','asset_brand','user_list','vendor_list'));
+        //$types = array_keys($this->asset_type);       //dd($types);
+        $asset_status=$this->asset_status; 
+        //$asset_brand=array_keys($this->asset_brand); //dd($asset_brand);
+        return view('iassets.index', compact('objects', 'attributes','asset_status','user_list','vendor_list'));
     }
     public function show($id){
         $object= Iasset::findOrFail($id);
@@ -169,7 +176,6 @@ class IassetsController extends Controller
         return view('iassets.create', compact('attributes','types', 'asset_status', 'asset_brand','user_list','vendor_list'));
     }
     public function store(CreateIassetRequest $request){
-
         $request['iasset_id']= $this->getIassetId($request);
         $prequest = $request;
         $prequest['unique_office_id']=$this->asset_type[array_keys($this->asset_type)[$request->get('type')]].'-'.$request->get('unique_office_id');
@@ -177,6 +183,10 @@ class IassetsController extends Controller
             'unique_office_id' => 'required|unique:iassets',
             'serial_id' => 'required|unique:iassets',
         ]);
+        $types = array_keys($this->asset_type);
+        $brands=array_keys($this->asset_brand);
+        $request['type']=$types[$request['type']];
+        $request['brand']=$brands[$request['brand']];
         $asset = new Iasset($request->all());
         $asset->save();
         $asset->iusers()->attach($asset->iuser_id);
@@ -187,6 +197,10 @@ class IassetsController extends Controller
        $userChanged = true;
        if($asset['iuser_id'] == $request['iuser_id'])
            $userChanged= false;
+/*        $types = array_keys($this->asset_type);
+        $brands=array_keys($this->asset_brand);
+        $request['type']=$types[$request['type']];
+        $request['brand']=$brands[$request['brand']];*/
        $asset->update($request->all());
        if($userChanged){
            $asset->iusers()->attach($asset->iuser_id);

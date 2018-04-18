@@ -5,13 +5,13 @@
             <td> {{ $attribute }} </td>
             <td>
                 @if($attribute == 'Department')
-                    {{$departments[object_get($object, strtolower($attribute), null)]}}
+                    {{object_get($object, strtolower($attribute), null)}}
                 @elseif($attribute == 'Status' )
                     {{$asset_status[object_get($object, strtolower($attribute), null)]}}
                 @elseif($attribute == 'Brand' )
-                    {{$asset_brand[object_get($object, strtolower($attribute), null)]}}
+                    {{object_get($object, strtolower($attribute), null)}}
                 @elseif($attribute == 'Type' )
-                    {{$types[object_get($object, strtolower($attribute), null)]}}
+                    {{object_get($object, strtolower($attribute), null)}}
                 @elseif($attribute == 'Iuser_Id' )
                     <?php $id=object_get($object, strtolower($attribute), null)?>
                     @if($id == null)

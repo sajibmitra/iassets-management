@@ -38,12 +38,10 @@
 @section('footer')
     <script>
         $('#role').select2();
+        
         $('#departments').select2().on('change', function () {
             var id = $(this).val();
-            var newOptions= {"Option 1": "value1",
-                    "Option 2": "value2",
-                    "Option 3": "value3"
-        };
+            var newOptions= {"Option 1": "value1"};
            switch(id){
                 case '0':
                     newOptions = <?php echo json_encode($secDeptMapping['Establishment'], JSON_FORCE_OBJECT) ?>;
@@ -79,6 +77,5 @@
             });
         });
         $('#designations').select2();
-
     </script>
 @endsection

@@ -7,8 +7,8 @@ use App\Iuser;
 class IusersController extends Controller
 {
     protected $roles    = [
-        'User'  => 'User',
-        'Super User' => 'Super User',
+        'Active'  => 'Active',
+        'In-active' => 'In-active',
         'Admin' => 'Admin',
     ];
     protected $designations = [
@@ -23,7 +23,7 @@ class IusersController extends Controller
         'Governor'   => 'Governor',
     ];
     protected $secDeptMapping = [
-        'Establishment'=> ['ED Section'=>'ED Section',
+        'Establishment'=> ['ED Section'=>'ED Section',              //0
             'GM Section'=>'GM Section',
             'Staff Section'=>'Staff Section',
             'ICT Cell'=>'ICT CELL',
@@ -31,25 +31,25 @@ class IusersController extends Controller
             'Dead Stock'=>'Dead Stock',
             'Advanced Payment'=>'Advanced Payment',
             'Stationery'=>'Stationery',
-            'Bill Pay Section'=>'Bill Pay Section',
+            'Building Project Section'=>'Building Project Section',
             'Verification Unit'=>'Verification Unit',
             'Medical'=>'Medical',
             'Welfare'=>'Welfare'],
-        'Small and Medium Enterprise'=> ['SME'=>'SME'],
-        'Agriculture and Credit Dept.' => ['ACD'=>'ACD'],
-        'Foreign Exchange Policy Dept.'=> ['FEPD'=>'FEPD'],
-        'CASH' => ['CASH Administration'=>'CASH Administration',
+        'Small and Medium Enterprise'=> ['SME'=>'SME'],             //1
+        'Agriculture and Credit Dept.' => ['ACD'=>'ACD'],           //2
+        'Foreign Exchange Policy Dept.'=> ['FEPD'=>'FEPD'],         //3
+        'CASH' => ['CASH Administration'=>'CASH Administration',    //4
             'CASH BPS'=>'CASH BPS',
             'CASH Vault'=>'CASH Vault',
             'CASH Pension'=>'CASH Pension',
             'CASH PBS Receipt'=>'CASH PBS Receipt',
             'CASH DAB Counter'=>'CASH DAB Counter'],
-        'Banking'=> ['Prize Bond'=>'Prize Bond',
+        'Banking'=> ['Prize Bond'=>'Prize Bond',                    //5
             'PAD'=>'PAD',
             'DAB'=>'DAB',
             'Banking'=>'Banking',
             'Currency'=>'Currency'],
-        'Dept. of Bank Inspection'=> ['DBI'=>'DBI',
+        'Dept. of Bank Inspection'=> ['DBI'=>'DBI',                 //6
             'CIPC'=>'CIPC']
     ];
 
@@ -57,7 +57,8 @@ class IusersController extends Controller
         $this->middleware('auth');
     }
     public function index(){
-        $objects= Iuser::orderBy('name')->get();
+        $objects= Iuser::latest('updated_at')->get();
+        //$objects= Iuser::orderBy('name')->get();
         $designations= $this->designations;
         $departments= array_keys($this->secDeptMapping);
         $roles = $this->roles;
@@ -89,12 +90,16 @@ class IusersController extends Controller
             //'email' => 'required|unique:iusers',
         ]);
         $request['password']='_NOT_SET_';
+        $departments= array_keys($this->secDeptMapping);
+        $request['department']=$departments[$request['department']];
         $user = new Iuser($request->all());
         $user->save();
         return redirect('iusers');
     }
     public function update($id, CreateIuserRequest $request){
         $user = Iuser::findOrFail($id);
+        $departments= array_keys($this->secDeptMapping);
+        $request['department']=$departments[$request['department']];
         $user->update($request->all());
         return redirect('iusers');
     }
